@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     #local apps
     'blog_api',
     'user_api',
+    'course_api',
 ]
 
 MIDDLEWARE = [
