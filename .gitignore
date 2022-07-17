@@ -21,6 +21,9 @@ build/
 # testing
 /coverage
 
+#media
+Backend/media
+
 #database
 db.sqlite3
 
