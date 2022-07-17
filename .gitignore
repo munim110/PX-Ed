@@ -21,6 +21,9 @@ build/
 # testing
 /coverage
 
+#database
+db.sqlite3
+
 # production
 /build
 
