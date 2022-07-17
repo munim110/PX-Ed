@@ -24,6 +24,9 @@ build/
 #database
 db.sqlite3
 
+#media
+Backend/media
+
 # production
 /build
 
