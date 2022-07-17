@@ -25,3 +25,4 @@ class UserObtainAuthToken(ObtainAuthToken):
         user = SiteUser.objects.get(id=token.user_id)
         userSerializer = UserSerializer(user)
         return Response({'token': token.key, 'user': userSerializer.data})
+    

@@ -60,7 +60,7 @@ const LoginPage = () => {
                 setPasswordError(true);
             }
             else {
-                localStorage.setItem('user', JSON.stringify(authData));
+                localStorage.setItem('user', JSON.stringify(authData.user));
                 setAuthenticated(true);
             }
         }
@@ -69,7 +69,7 @@ const LoginPage = () => {
     let navigate = useNavigate();
     useEffect(() => {
         if (authenticated) {
-            console.log("Authenticated");
+            console.log("Authenticated At Login");
             navigate('/home');
         }
     }, [authenticated]);

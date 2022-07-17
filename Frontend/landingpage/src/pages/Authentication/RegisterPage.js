@@ -100,7 +100,7 @@ const RegisterPage = () => {
     let navigate = useNavigate();
     useEffect(() => {
         if (authenticated) {
-            console.log("Authenticated");
+            console.log("Authenticated at register");
             navigate('/home');
         }
     }, [authenticated]);

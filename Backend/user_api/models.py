@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractUser
 AbstractUser._meta.get_field('email')._unique = True
 
 class SiteUser(AbstractUser):
-    profile_pic = models.ImageField(default=None)
+    profile_pic = models.ImageField(default='/ProfilePics/default.jpg', upload_to='ProfilePics')
     
     class Meta:
         unique_together = ('username', 'email')
