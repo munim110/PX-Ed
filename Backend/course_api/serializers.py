@@ -5,6 +5,7 @@ class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = '__all__'
+        extra_kwargs = {'name': {'required': False}, 'tags': {'required': False}, 'description': {'required': False}, 'target_audience': {'required': False}, 'outline': {'required': False}, 'outcome': {'required': False}, 'instructor': {'required': False}}
         depth = 1
 
 class ChapterSerializer(serializers.ModelSerializer):

@@ -1,17 +1,28 @@
 import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 // import pages
+// Landing Page
 import LandingPage from './pages/LandingPage'
+
+// Authentication
+import LoginPage from './pages/Authentication/LoginPage'
+import RegisterPage from './pages/Authentication/RegisterPage'
+
+// User Pages
 import Home from './pages/Home'
-import Courses from './pages/Courses'
+import ProfilePage from './pages/Profile'
+
+// Courses
+import Courses from './pages/Courses/Courses'
+import Analysis from './pages/Analysis'
+
+// Blogs
 import SingleBlog from './pages/Blogs/SingleBlogPage'
 import Blogs from './pages/Blogs/Blogs'
 import AddBlog from './pages/Blogs/AddBlog'
-import Analysis from './pages/Analysis'
+
+// Error
 import Error from './pages/Error'
-import LoginPage from './pages/Authentication/LoginPage'
-import RegisterPage from './pages/Authentication/RegisterPage'
-import ProfilePage from './pages/Profile'
 
 import { useGlobalContext } from './context'
 // import components
@@ -53,6 +64,7 @@ function App() {
 
         // Courses
         <Route path="/courses" element={<Courses />} />
+        <Route path="/courses/:id" element={<Courses />} />
         <Route path="/analysis" element={<Analysis />} />
         
         // Error

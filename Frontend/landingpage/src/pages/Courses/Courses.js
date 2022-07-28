@@ -1,5 +1,8 @@
 import React, { useEffect } from 'react'
-import { useGlobalContext } from '../context'
+import { useGlobalContext } from '../../context'
+
+import SearchForm from '../../components/CourseSearchForm'
+import AllCourses from '../../components/AllCourses'
 
 const Courses = () => {
   const { useNavbar, setUseNavbar, setAuthenticated, setSpecialUser } = useGlobalContext();
@@ -11,9 +14,10 @@ const Courses = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Courses page</h2>
-    </div>
+    <main>
+      <SearchForm />
+      <AllCourses />
+    </main>
   )
 }
 

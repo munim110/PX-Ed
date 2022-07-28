@@ -1,13 +1,11 @@
-import React, { useState, useContext, useEffect } from 'react'
-import { useCallback } from 'react'
+import React, { useState, useContext } from 'react'
 
-const url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s='
-const blog_url = 'http://127.0.0.1:8000/api/blogs/'
 const AppContext = React.createContext()
 
 const AppProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [blogs, setBlogs] = useState([]);
+  const [courses, setCourses] = useState([]);
   const [blogSearchTerm, setBlogSearchTerm] = useState('a');
   const [courseSearchTerm, setCourseSearchTerm] = useState('a');
   const [myUser, setMyUser] = useState({});
@@ -33,7 +31,9 @@ const AppProvider = ({ children }) => {
       useNavbar,
       setUseNavbar,
       specialUser,
-      setSpecialUser
+      setSpecialUser,
+      courses,
+      setCourses
     }
   }>{children}</AppContext.Provider>
 }

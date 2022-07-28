@@ -12,7 +12,6 @@ class Blog(models.Model):
     tags = models.CharField(max_length=200)
     thumbnail = models.ImageField(default=None, upload_to='Blogs')
     author = models.CharField(max_length=30)
-    subject = models.ManyToManyField(Subject)
     publish_date = models.DateField(null=False, blank=False, auto_now_add=True)
     content = models.TextField()
 

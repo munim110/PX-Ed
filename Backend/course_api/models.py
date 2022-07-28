@@ -4,11 +4,13 @@ from blog_api.models import Subject
 
 class Course(models.Model):
     name = models.CharField(max_length=100)
-    Subject = models.ManyToManyField(Subject)
+    tags = models.CharField(max_length=200)
     description = models.TextField()
     target_audience = models.TextField()
     outline = models.TextField()
     outcome = models.TextField()
+    instructor = models.CharField(max_length=100)
+    thumbnail = models.ImageField(default=None, upload_to='Courses')
     def __str__(self):
         return self.name
 

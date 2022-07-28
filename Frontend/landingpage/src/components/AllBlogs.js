@@ -8,7 +8,6 @@ const blog_url = 'http://127.0.0.1:8000/api/blogs/?search='
 
 const BlogList = () => {
   const { blogs, setBlogs, loading, setLoading, blogSearchTerm } = useGlobalContext();
-  console.log(blogSearchTerm);
   const fetchBlogs = async () => {
     setLoading(true);
     try{

@@ -12,7 +12,7 @@ class BlogViewset(viewsets.ModelViewSet):
     serializer_class = BlogSerializer
     
     filter_backends = (filters.SearchFilter,)
-    search_fields = ['title', 'tags', 'author', 'subject__name', 'content']
+    search_fields = ['title', 'tags', 'author', 'content']
     
 class AddBlogViewset(viewsets.ModelViewSet):
     queryset = Blog.objects.all()

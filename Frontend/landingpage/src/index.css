@@ -235,7 +235,7 @@ Error
 
 /* 
 ====== 
-Blog List 
+Blog & Course List 
 ======
 */
 
@@ -252,7 +252,8 @@ Blog List
   margin-top: 1rem;
 }
 
-.blog-center {
+.blog-center,
+.course-center {
   width: var(--smallWidth);
   margin: 0 auto;
   max-width: var(--fullWidth);
@@ -262,18 +263,20 @@ Blog List
 }
 
 @media screen and (min-width: 576px) {
-  .blog-center {
+  .blog-center,
+  .course-center {
     grid-template-columns: repeat(auto-fill, minmax(338.8px, 1fr));
   }
 }
 
 /* 
 ====== 
-Blog 
+Blog & Courses 
 ======
 */
 
-.blog {
+.blog,
+.course {
   background: var(--mainWhite);
   margin-bottom: 2rem;
   box-shadow: var(--lightShadow);
@@ -283,32 +286,40 @@ Blog
   border-radius: var(--mainBorderRadius);
 }
 
-.blog:hover {
+.blog:hover,
+.course:hover {
   box-shadow: var(--darkShadow);
 }
 
-.blog img {
+.blog img,
+.course img {
   height: 20rem;
   object-fit: cover;
   border-top-left-radius: var(--mainBorderRadius);
   border-top-right-radius: var(--mainBorderRadius);
 }
 
-.blog-footer {
+.blog-footer,
+.course-footer {
   padding: 1.5rem;
 }
 
 .blog-footer h3,
 .blog-footer h4,
-.blog-footer p {
+.blog-footer p,
+.course-footer h3,
+.course-footer h4,
+.course-footer p {
   margin-bottom: 0.3rem;
 }
 
-.blog-footer h3 {
+.blog-footer h3,
+.course-footer h3 {
   font-size: 2rem;
 }
 
-.blog-footer p {
+.blog-footer p,
+.course-footer p {
   color: var(--darkGrey);
   margin-bottom: 0.5rem;
 }
@@ -415,62 +426,8 @@ Single Blog Page
   letter-spacing: 1px;
   white-space: pre-line;
 }
-
-/* 
-====== 
-Cocktail
-======
+/*
 */
-
-.cocktail-section {
-  text-align: center;
-}
-
-.drink {
-  width: var(--smallWidth);
-  max-width: var(--fullWidth);
-  margin: 0 auto;
-  text-align: left;
-}
-
-.drink img {
-  border-radius: var(--mainBorderRadius);
-}
-
-.drink p {
-  font-weight: bold;
-  text-transform: capitalize;
-  line-height: 1.8;
-}
-
-.drink span {
-  margin-right: 0.5rem;
-}
-
-.drink-data {
-  background: var(--primaryLightColor);
-  padding: 0.25rem 0.5rem;
-  border-radius: var(--mainBorderRadius);
-  color: var(--primaryColor);
-}
-
-.drink-info {
-  padding-top: 2rem;
-}
-
-@media screen and (min-width: 992px) {
-  .drink {
-    display: grid;
-    grid-template-columns: 2fr 3fr;
-    gap: 3rem;
-    align-items: center;
-  }
-
-  .drink-info {
-    padding-top: 0;
-  }
-}
-
 .loader,
 .loader:before,
 .loader:after {

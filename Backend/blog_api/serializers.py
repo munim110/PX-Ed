@@ -5,7 +5,7 @@ class BlogSerializer(serializers.ModelSerializer):
     class Meta:
         model = Blog
         fields = '__all__'
-        extra_kwargs = {'title': {'required': False}, 'tags': {'required': False}, 'author': {'required': False}, 'subject': {'required': False}, 'content': {'required': False}}
+        extra_kwargs = {'title': {'required': False}, 'tags': {'required': False}, 'author': {'required': False}, 'content': {'required': False}}
         depth = 1
         
     def create(self, validated_data):
