@@ -4,6 +4,7 @@ from django.urls import include, re_path
 
 routers = routers.DefaultRouter()
 routers.register(r'blogs', views.BlogViewset)
+routers.register(r'add-blog', views.AddBlogViewset)
 
 urlpatterns = [
     re_path(r'^', include(routers.urls)),

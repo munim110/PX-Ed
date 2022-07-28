@@ -1,5 +1,4 @@
 from django.db import models
-import outcome
 from blog_api.models import Subject
 
 

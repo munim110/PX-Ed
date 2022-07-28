@@ -5,13 +5,13 @@ import { Navigate } from 'react-router-dom';
 const localHost = '127.0.0.1:8000';
 const userApi = 'http://127.0.0.1:8000/api/users/';
 
-function uploadProfilePicture (id, data){
+function uploadProfilePicture(id, data) {
     return fetch(`${userApi}${id}/`, {
         method: 'PUT',
         body: data,
     })
-    .then(res => res.json())
-    .catch(err => console.log(err));
+        .then(res => res.json())
+        .catch(err => console.log(err));
 }
 
 const Profile = () => {
@@ -30,15 +30,19 @@ const Profile = () => {
         setUserData(uploadData);
     }
 
+    const { useNavbar, setAuthenticated, setSpecialUser } = useGlobalContext();
+
     useEffect(() => {
         setUseNavbar(true);
+        setAuthenticated(localStorage.getItem('authenticated'));
+        setSpecialUser(localStorage.getItem('specialUser'));
     }, []);
 
     useEffect(() => {
         let src = `${userData.profile_pic}`;
-        if(src.includes(localHost)){
+        if (src.includes(localHost)) {
             src = `${userData.profile_pic}`;
-        }else{
+        } else {
             src = `http://${localHost}${userData.profile_pic}`;
         }
         setImgSrc(src);
@@ -53,7 +57,7 @@ const Profile = () => {
                 <img src={imgSrc} alt={myUser.username} className='profile-pic' />
             </div>
             <form onSubmit={handleProfilePicUpload}>
-                <input type='file' onChange={(e) => setImage(e.target.files[0])} /> <br/>
+                <input type='file' onChange={(e) => setImage(e.target.files[0])} /> <br />
                 <button type='submit'>Update Profile Picture</button>
             </form>
         </div>

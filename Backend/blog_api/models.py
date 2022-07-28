@@ -10,14 +10,14 @@ class Subject(models.Model):
 class Blog(models.Model):
     title = models.CharField(max_length=200)
     tags = models.CharField(max_length=200)
-    thumbnail = models.ImageField(default=None)
+    thumbnail = models.ImageField(default=None, upload_to='Blogs')
     author = models.CharField(max_length=30)
     subject = models.ManyToManyField(Subject)
-    publish_date = models.DateField()
+    publish_date = models.DateField(null=False, blank=False, auto_now_add=True)
     content = models.TextField()
 
     def __str__(self):
         return self.title
     
     class Meta:
-        unique_together = ('title', 'thumbnail')
+        unique_together = ('title', 'author')

@@ -1,15 +1,19 @@
 import React, { useEffect } from 'react'
 import SearchForm from '../../components/BlogSearchForm'
 import AllBlogs from '../../components/AllBlogs'
+import AddBlog from '../../components/AddBlog'
 import { useGlobalContext } from '../../context'
 
 const Blogs = () => {
-    const { useNavbar, setUseNavbar } = useGlobalContext();
+    const { specialUser, setUseNavbar, setAuthenticated, setSpecialUser } = useGlobalContext();
     useEffect(() => {
         setUseNavbar(true);
+        setAuthenticated(localStorage.getItem('authenticated'));
+        setSpecialUser(localStorage.getItem('specialUser'));
     }, []);
     return (
         <main>
+            {specialUser && <AddBlog />}    
             <SearchForm />
             <AllBlogs />
         </main>

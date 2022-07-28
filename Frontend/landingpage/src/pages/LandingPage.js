@@ -4,10 +4,12 @@ import { Link } from 'react-router-dom'
 
 const LandingPage = () => {
     const { authenticated } = useGlobalContext();
-    const { setUseNavbar } = useGlobalContext();
-    
+    const { useNavbar, setUseNavbar, setAuthenticated, setSpecialUser } = useGlobalContext();
+
     useEffect(() => {
         setUseNavbar(true);
+        setAuthenticated(localStorage.getItem('authenticated'));
+        setSpecialUser(localStorage.getItem('specialUser'));
     }, []);
 
     return (

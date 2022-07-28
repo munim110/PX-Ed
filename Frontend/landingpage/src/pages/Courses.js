@@ -2,10 +2,12 @@ import React, { useEffect } from 'react'
 import { useGlobalContext } from '../context'
 
 const Courses = () => {
-  const { setUseNavbar } = useGlobalContext();
-  
+  const { useNavbar, setUseNavbar, setAuthenticated, setSpecialUser } = useGlobalContext();
+
   useEffect(() => {
     setUseNavbar(true);
+    setAuthenticated(localStorage.getItem('authenticated'));
+    setSpecialUser(localStorage.getItem('specialUser'));
   }, []);
 
   return (

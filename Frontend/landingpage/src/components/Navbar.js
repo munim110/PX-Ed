@@ -4,7 +4,7 @@ import { useGlobalContext } from '../context'
 import logo from '../logo.svg'
 
 const Navbar = () => {
-  const { setBlogSearchTerm, authenticated, setAuthenticated } = useGlobalContext();
+  const { setBlogSearchTerm, authenticated, setAuthenticated, specialUser, setSpecialUser } = useGlobalContext();
 
   const resetSearchTerm = () => {
     setBlogSearchTerm('');
@@ -13,7 +13,10 @@ const Navbar = () => {
   let navigate = useNavigate();
   const logoutHandler = () => {
     localStorage.removeItem('user');
+    localStorage.removeItem('authenticated');
+    localStorage.removeItem('specialUser');
     setAuthenticated(false);
+    setSpecialUser(false);
     navigate('/');
   }
 

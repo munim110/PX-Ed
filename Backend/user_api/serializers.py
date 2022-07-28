@@ -5,7 +5,7 @@ from user_api.models import *
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = SiteUser
-        fields = ('id', 'username', 'email', 'password','profile_pic')
+        fields = ('id', 'username', 'email', 'password','profile_pic', 'special_user')
         extra_kwargs = {'password': {'write_only': True, 'required': False}, 'username': {'required': False}, 'email': {'required': False}}
         depth = 1
         

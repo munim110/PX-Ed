@@ -23,8 +23,13 @@ const tagArray = (tags) => {
 const SingleBlog = () => {
   const { id } = useParams();
   const { setBlogSearchTerm } = useGlobalContext();
-  const { useNavbar, setUseNavbar } = useGlobalContext();
-  setUseNavbar(true)
+  const { useNavbar, setUseNavbar, setAuthenticated, setSpecialUser } = useGlobalContext();
+
+  useEffect(() => {
+    setUseNavbar(true);
+    setAuthenticated(localStorage.getItem('authenticated'));
+    setSpecialUser(localStorage.getItem('specialUser'));
+  }, []);
 
   const searchForBlog = (tag) => {
     if (tag) {

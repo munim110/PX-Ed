@@ -13,6 +13,7 @@ const AppProvider = ({ children }) => {
   const [myUser, setMyUser] = useState({});
   const [authenticated, setAuthenticated] = useState(false)
   const [useNavbar, setUseNavbar] = useState(true)
+  const [specialUser, setSpecialUser] = useState(false)
 
 
   return <AppContext.Provider value={
@@ -30,7 +31,9 @@ const AppProvider = ({ children }) => {
       authenticated,
       setAuthenticated,
       useNavbar,
-      setUseNavbar
+      setUseNavbar,
+      specialUser,
+      setSpecialUser
     }
   }>{children}</AppContext.Provider>
 }

@@ -25,7 +25,7 @@ const LoginPage = () => {
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
 
-    const { setUseNavbar, setAuthenticated, authenticated } = useGlobalContext();
+    const { setUseNavbar, setAuthenticated, authenticated, setSpecialUser, specialUser } = useGlobalContext();
 
     let usernameErrorText = 'Username Does Not Exist';
     let passwordErrorText = 'Password is Incorrect';
@@ -34,6 +34,8 @@ const LoginPage = () => {
 
     useEffect(() => {
         setUseNavbar(false);
+        setAuthenticated(localStorage.getItem('authenticated'));
+        setSpecialUser(localStorage.getItem('specialUser'));
     }, []);
 
     const handleSubmit = async (e) => {
@@ -61,18 +63,28 @@ const LoginPage = () => {
             }
             else {
                 localStorage.setItem('user', JSON.stringify(authData.user));
+                setSpecialUser(authData.user.special_user);
                 setAuthenticated(true);
+                localStorage.setItem('specialUser', authData.user.special_user);
             }
         }
     }
-
     let navigate = useNavigate();
     useEffect(() => {
         if (authenticated) {
+            localStorage.setItem('authenticated', true);
             console.log("Authenticated At Login");
             navigate('/home');
         }
     }, [authenticated]);
+
+    useEffect(() => {
+        if(specialUser) {
+            localStorage.setItem('specialUser', true);
+            console.log("Special User At Login");
+        }
+    }
+    , [specialUser]);
 
     return (
         <div className='auth-form-div'>
