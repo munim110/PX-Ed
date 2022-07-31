@@ -14,6 +14,7 @@ import ProfilePage from './pages/Profile'
 
 // Courses
 import Courses from './pages/Courses/Courses'
+import AddCourse from './pages/Courses/AddCourses'
 import Analysis from './pages/Analysis'
 
 // Blogs
@@ -66,6 +67,7 @@ function App() {
         <Route path="/courses" element={<Courses />} />
         <Route path="/courses/:id" element={<Courses />} />
         <Route path="/analysis" element={<Analysis />} />
+        <Route path='/addcourse' element={<AddCourse />} />
         
         // Error
         <Route path="*" element={<Error />} />

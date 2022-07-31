@@ -32,7 +32,7 @@ function putThumbnail(id, image) {
 }
 
 const AddBlog = () => {
-    const { specialUser, setUseNavbar, setAuthenticated, setSpecialUser, myUser } = useGlobalContext();
+    const { specialUser, setUseNavbar, setAuthenticated, setSpecialUser, myUser, authenticated } = useGlobalContext();
     useEffect(() => {
         setUseNavbar(true);
         setAuthenticated(localStorage.getItem('authenticated'));
@@ -100,6 +100,10 @@ const AddBlog = () => {
             navigate('/blogs');
         }
     }, [success]);
+
+    if(!specialUser || !authenticated) {
+        navigate('/blogs'); 
+    }
 
     return (
         <>

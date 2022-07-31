@@ -787,6 +787,16 @@ Add Blog
   height: 80%;
 }
 
+.add-course-form{
+  height: 100px;
+}
+
+.add-course-form-wrapper{
+  display: grid;
+  grid-template-rows: auto auto auto auto auto auto auto auto;
+  height: 60%;
+}
+
 .blog-input-wrapper{
   height: 110px;
 }

@@ -6,8 +6,8 @@ const AppProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [blogs, setBlogs] = useState([]);
   const [courses, setCourses] = useState([]);
-  const [blogSearchTerm, setBlogSearchTerm] = useState('a');
-  const [courseSearchTerm, setCourseSearchTerm] = useState('a');
+  const [blogSearchTerm, setBlogSearchTerm] = useState('');
+  const [courseSearchTerm, setCourseSearchTerm] = useState('');
   const [myUser, setMyUser] = useState({});
   const [authenticated, setAuthenticated] = useState(false)
   const [useNavbar, setUseNavbar] = useState(true)

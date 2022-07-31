@@ -11,11 +11,13 @@ const CourseList = () => {
     const { courses, setCourses, loading, setLoading, courseSearchTerm } = useGlobalContext();
     const fetchCourses = async () => {
         setLoading(true);
+        console.log(courseSearchTerm)
         try{
             const response = await fetch(`${course_url}${courseSearchTerm}`);
             const data = await response.json();
             if(data.length > 0){
                 const courses = data.map(course => {
+                    console.log(course);
                     return {
                         id: course.id,
                         name: course.name,
