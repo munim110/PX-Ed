@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 
 from blog_api.models import *
-from blog_api.serializers import BlogSerializer
+from blog_api.serializers import BlogSerializer, BlogCommentSerializer
 
 # Create your views here.
 
@@ -24,3 +24,24 @@ class AddBlogViewset(viewsets.ModelViewSet):
             serializer.save()
             return Response({'result': 'success'})
         return Response({'result': 'failure'})
+
+
+class BlogCommentViewset(viewsets.ModelViewSet):
+    queryset = BlogComment.objects.all()
+    serializer_class = BlogCommentSerializer
+    
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ['comment', 'blog__id']
+
+
+class AddBlogCommentViewset(viewsets.ModelViewSet):
+    queryset = BlogComment.objects.all()
+    serializer_class = BlogCommentSerializer
+    
+    def post(self, request):
+        serializer = BlogCommentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'result': 'success'})
+        return Response({'result': 'failure'})
+

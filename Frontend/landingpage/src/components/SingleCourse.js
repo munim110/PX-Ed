@@ -17,7 +17,7 @@ const Course = ({ id, name, description, instructor, thumbnail }) => {
                 </div>
             </Link>
             <div className='course-footer'>
-                <Link to={`/courses/${id}`}><h4>{name}</h4></Link>
+                <Link to={`/course/${id}`}><h4>{name}</h4></Link>
                 <h5>{instructor}</h5>
                 <p>{description.substring(0, 150)}...<button className='btn-white' onClick={routeChange}>see more</button></p>
             </div>

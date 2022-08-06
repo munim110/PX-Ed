@@ -1,4 +1,5 @@
 from django.db import models
+from user_api.models import SiteUser
 
 class Subject(models.Model):
     name = models.CharField(max_length=100)
@@ -20,3 +21,13 @@ class Blog(models.Model):
     
     class Meta:
         unique_together = ('title', 'author')
+
+
+class BlogComment(models.Model):
+    comment = models.TextField()
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
+    user = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
+    datetime = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.comment

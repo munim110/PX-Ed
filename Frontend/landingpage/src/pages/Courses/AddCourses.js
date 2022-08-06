@@ -138,7 +138,7 @@ const AddCourses = () => {
                         <h1 className='add-blog-header-text'>Add New Course</h1>
                     </header>
 
-                    <form className='add-course-form' onSubmit={handleSubmit}>
+                    <form className='add-course-form' onSubmit={ handleSubmit }>
                         <div className='add-course-form-wrapper'>
                             <div className='blog-input-wrapper'>
                                 <label className='add-blog-label'>Name</label>
@@ -199,6 +199,7 @@ const AddCourses = () => {
 
 
                             <div className='blog-input-wrapper'>
+
                                 <button className='form-submit-button add-blog-button-margin' type="submit">Publish</button>
                             </div>
 

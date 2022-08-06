@@ -17,3 +17,19 @@ class BlogSerializer(serializers.ModelSerializer):
         )
         blog.save()
         return blog
+
+
+class BlogCommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BlogComment
+        fields = '__all__'
+        extra_kwargs = {'comment': {'required': False}, 'blog__id': {'required': False}}
+        depth = 1
+        
+    def create(self, validated_data):
+        blog_comment = BlogComment(
+            comment=validated_data['comment'],
+            blog=Blog.objects.get(id=int(validated_data['blog__id'])),
+        )
+        blog_comment.save()
+        return blog_comment

@@ -1,5 +1,5 @@
 from django.db import models
-from blog_api.models import Subject
+from user_api.models import SiteUser
 
 
 class Course(models.Model):
@@ -30,3 +30,21 @@ class Video(models.Model):
     description = models.TextField(null=True, blank=True)
     def __str__(self):
         return self.name
+
+class VideoComment(models.Model):
+    comment = models.TextField()
+    video = models.ForeignKey(Video, on_delete=models.CASCADE)
+    user = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
+    datetime = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.comment
+
+
+class isWatched(models.Model):
+    user = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
+    video = models.ForeignKey(Video, on_delete=models.CASCADE)
+    is_watched = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.user.username + " " + self.video.name

@@ -797,6 +797,16 @@ Add Blog
   height: 60%;
 }
 
+.add-chapter-form{
+  height: 100px;
+}
+
+.add-chapter-form-wrapper{
+  display: grid;
+  grid-template-rows: auto auto auto auto auto;
+  height: 60%;
+}
+
 .blog-input-wrapper{
   height: 110px;
 }

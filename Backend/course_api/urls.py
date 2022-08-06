@@ -9,6 +9,11 @@ routers.register(r'videos', views.VideoViewSet)
 routers.register(r'add_courses', views.addCourseViewSet)
 routers.register(r'add_chapters', views.addChapterViewSet)
 routers.register(r'add_videos', views.addVideoViewSet)
+routers.register(r'video_comments', views.VideoCommentViewSet)
+routers.register(r'add_video_comments', views.addVideoCommentViewSet)
+routers.register(r'is_watched', views.isWatchedViewSet)
+routers.register(r'add_is_watched', views.addisWatchedViewSet)
+
 
 urlpatterns = [
     re_path(r'^', include(routers.urls)),
