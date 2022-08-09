@@ -3,39 +3,26 @@ import { useEffect } from 'react';
 import Loading from '../../components/Loading'
 import { useParams, Link } from 'react-router-dom'
 import { useGlobalContext } from '../../context'
+import { getUserName } from '../../Utils'
 
 const url = 'http://127.0.0.1:8000/api/courses/'
 
-const tagArray = (tags) => {
-    if (tags) {
-      const tagArray = tags.split(',');
-      return tagArray;
-    }
-}
-
-function getUserName() {
-    let data = localStorage.getItem('user');
-    if (data != null) {
-        data = JSON.parse(data);
-        return data.username;
-    }
-    return '';
-}
-
 const SingleCourse = () => {
+    // Contexts and Parameters
     const { id } = useParams();
     const { setCourseSearchTerm } = useGlobalContext();
     const { useNavbar, setUseNavbar, setAuthenticated, setSpecialUser } = useGlobalContext();
+
+    // State
+    const [course, setCourse] = React.useState({});
+    const [loading, setLoading] = React.useState(true);
+    const [instructor, setInstructor] = React.useState(false);
 
     useEffect(() => {
         setUseNavbar(true);
         setAuthenticated(localStorage.getItem('authenticated'));
         setSpecialUser(localStorage.getItem('specialUser'));
     }, []);
-
-    const [course, setCourse] = React.useState({});
-    const [loading, setLoading] = React.useState(true);
-    const [instructor, setInstructor] = React.useState(false);
 
     useEffect(() => {
         const fetchCourse = async () => {
@@ -45,8 +32,8 @@ const SingleCourse = () => {
                 const data = await response.json();
                 setCourse(data);
                 console.log(data);
-                if(JSON.parse(localStorage.getItem('user'))){
-                    if(JSON.parse(localStorage.getItem('user')).username === data.instructor){
+                if (JSON.parse(localStorage.getItem('user'))) {
+                    if (getUserName() === data.instructor) {
                         setInstructor(true);
                     }
                 }
@@ -65,7 +52,7 @@ const SingleCourse = () => {
 
     return (
         <section className="section">
-            {instructor && <Link to={`/course`} className="btn btn-primary">Add Chapters</Link>}
+            {instructor && <Link to={`/addchapter/${id}`} className="btn btn-primary">Add Chapters</Link>}
             <img src={course.thumbnail} alt={course.title} className="blog-thumbnail" />
             <div className="blog-title">
                 <h2>{course.title}</h2>
@@ -77,6 +64,6 @@ const SingleCourse = () => {
             </div>
         </section>
     );
-  }
+}
 
-  export default SingleCourse;
+export default SingleCourse;

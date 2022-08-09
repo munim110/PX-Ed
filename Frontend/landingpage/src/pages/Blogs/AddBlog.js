@@ -1,15 +1,7 @@
 import React, { useEffect } from 'react'
 import { useGlobalContext } from '../../context'
 import { Link, useNavigate } from 'react-router-dom'
-
-function getUserName() {
-    let data = localStorage.getItem('user');
-    if (data != null) {
-        data = JSON.parse(data);
-        return data.username;
-    }
-    return '';
-}
+import { getUserName } from '../../Utils'
 
 function addBlog(data) {
     return fetch('http://127.0.0.1:8000/api/add-blog/', {
@@ -135,12 +127,11 @@ const AddBlog = () => {
 
                             <div className='content-input-wrapper'>
                                 <label className='add-blog-label'>Content</label>
-                                <textarea className='content-input-field' id="content" placeholder="Content" onChange={
+                                <input className='content-input-field' type="text" id="content" placeholder="Content" onChange={
                                     e => setContent(e.target.value)
                                 } />
                                 {contentError && <span className='add-blog-error-text'>Content is required</span>}
                             </div>
-
                             <div className='blog-input-wrapper'>
                                 <label className='add-blog-label'>Thumbnail</label>
                                 <input className='form-input-field' type="file" id="image" placeholder="Image" onChange={

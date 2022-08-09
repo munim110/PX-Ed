@@ -7,6 +7,7 @@ routers.register(r'blogs', views.BlogViewset)
 routers.register(r'add-blog', views.AddBlogViewset)
 routers.register(r'blog-comments', views.BlogCommentViewset)
 routers.register(r'add-blog-comments', views.AddBlogCommentViewset)
+routers.register(r'blog-comments', views.BlogCommentViewset)
 
 urlpatterns = [
     re_path(r'^', include(routers.urls)),

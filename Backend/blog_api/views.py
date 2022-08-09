@@ -31,7 +31,7 @@ class BlogCommentViewset(viewsets.ModelViewSet):
     serializer_class = BlogCommentSerializer
     
     filter_backends = (filters.SearchFilter,)
-    search_fields = ['comment', 'blog__id']
+    search_fields = ['blog__id']
 
 
 class AddBlogCommentViewset(viewsets.ModelViewSet):

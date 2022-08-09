@@ -23,13 +23,15 @@ class BlogCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = BlogComment
         fields = '__all__'
-        extra_kwargs = {'comment': {'required': False}, 'blog__id': {'required': False}}
+        extra_kwargs = {'comment': {'required': False}, 'blog__id': {'required': False}, 'user__id': {'required': False}}
         depth = 1
         
     def create(self, validated_data):
+        print(self.context['request'].data.get('blog'))
         blog_comment = BlogComment(
             comment=validated_data['comment'],
-            blog=Blog.objects.get(id=int(validated_data['blog__id'])),
+            blog=Blog.objects.get(id=int(self.context['request'].data.get('blog'))),
+            user=SiteUser.objects.get(id=int(self.context['request'].data.get('user'))),
         )
         blog_comment.save()
         return blog_comment

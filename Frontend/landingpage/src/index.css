@@ -147,7 +147,7 @@ Buttons
 Navbar
 ======
 */
-.navbar-with-profile{
+.navbar-with-profile {
   display: grid;
   grid-template-columns: 90% 10%;
   height: 5rem;
@@ -196,12 +196,12 @@ Navbar
   width: 12rem;
 }
 
-.profile-corner{
+.profile-corner {
   display: grid;
   grid-template-rows: 70% 30%;
 }
 
-.profile-container{
+.profile-container {
   text-transform: capitalize;
   display: inline-block;
   font-weight: bold;
@@ -263,6 +263,7 @@ Blog & Course List
 }
 
 @media screen and (min-width: 576px) {
+
   .blog-center,
   .course-center {
     grid-template-columns: repeat(auto-fill, minmax(338.8px, 1fr));
@@ -426,6 +427,7 @@ Single Blog Page
   letter-spacing: 1px;
   white-space: pre-line;
 }
+
 /*
 */
 .loader,
@@ -626,7 +628,7 @@ Login and Signup Page
   border-color: #222;
 }
 
-.form-center{
+.form-center {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -659,7 +661,7 @@ Add Blog
 ======
 */
 
-.add-blog-section{
+.add-blog-section {
   padding: 1rem 0;
   display: flex;
   justify-content: center;
@@ -683,7 +685,9 @@ Add Blog
   justify-content: center;
 }
 
-.add-blog-block {
+.add-blog-block,
+.add-chapter-block,
+.add-course-block {
   position: absolute;
   width: 90vh;
   padding: 25px;
@@ -691,9 +695,6 @@ Add Blog
   border-radius: var(--mainBorderRadius);
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   vertical-align: middle;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 .add-blog-header {
@@ -756,24 +757,23 @@ Add Blog
   box-sizing: border-box;
   font-size: 16px;
   padding: 14px 10px;
-  margin-bottom: 2px;
   background: rgba(255, 255, 255, .25);
   border: 1px solid rgba(255, 255, 255, .1);
   border-radius: var(--mainBorderRadius);
   border-color: #222;
 }
 
-.content-input-field{
-  height: 100%;
+.content-input-field {
+  height: 138px;
 }
 
-.form-center{
+.form-center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.add-blog-label{
+.add-blog-label {
   font-size: 20px;
   font-weight: 500;
   color: #222;
@@ -781,40 +781,164 @@ Add Blog
   margin-top: 10px;
 }
 
-.add-blog-form-wrapper{
+.add-blog-form-wrapper {
   display: grid;
   grid-template-rows: 15% 15% 40% 15% 15%;
   height: 80%;
 }
 
-.add-course-form{
+.add-course-form {
   height: 100px;
 }
 
-.add-course-form-wrapper{
+.add-course-form-wrapper {
   display: grid;
   grid-template-rows: auto auto auto auto auto auto auto auto;
   height: 60%;
 }
 
-.add-chapter-form{
+.add-chapter-form {
   height: 100px;
 }
 
-.add-chapter-form-wrapper{
+.add-chapter-form-wrapper {
   display: grid;
   grid-template-rows: auto auto auto auto auto;
   height: 60%;
 }
 
-.blog-input-wrapper{
+.blog-input-wrapper {
   height: 110px;
 }
 
-.content-input-wrapper{
+.content-input-wrapper {
   height: 200px;
 }
 
-.add-blog-button-margin{
+.add-blog-button-margin {
   margin-top: 20px;
+}
+
+.add-blog-block {
+  transform: translate(0%, 15%);
+  height: 76%;
+}
+
+.add-course-block {
+  height: 138%;
+  transform: translate(0%, 7%);
+}
+
+.add-chapter-block {
+  height: 72%;
+  transform: translateY(20%);
+}
+
+
+/* 
+====== 
+Comment Area
+======
+*/
+
+.comment-section {
+  background: rgba(51, 104, 129, 0.13);
+  padding: 1rem 0;
+  display: grid;
+  grid-template-columns: 30% 40% 30%;
+  margin-top: 1rem;
+  flex-direction: column;
+}
+
+.comment-center-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.comment-section h1 {
+  font-size: 1.25rem;
+}
+
+.add-comment-section {
+  padding: 1rem 0;
+  display: flex;
+  justify-content: left;
+  flex-direction: column;
+  width: 60%;
+}
+
+.add-comment-form {
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.comment-textarea {
+  height: 100px;
+  font-size: 1rem;
+}
+
+.comment-button {
+  height: 50px;
+  width: 35%;
+  display: inline-block;
+  padding: 15px 12px;
+  margin-bottom: 0;
+  font-size: 16px;
+  font-weight: 400;
+  text-transform: uppercase;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: none;
+  border-radius: 2 * var(--mainBorderRadius);
+  color: #fff;
+  background: #ED6A5E;
+  box-shadow: 0px 0px 13px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+}
+
+.add-comment-text {
+  font-size: 20px;
+  font-weight: 500;
+  color: #777777;
+  text-decoration: none;
+}
+
+.comment-container {
+  display: grid;
+  grid-template-columns: 120px auto;
+  background-color: #afafaf;
+  margin-bottom: 10px;
+  width: 60%;
+  height: 100px;
+}
+
+.comment-profile-pic {
+  border-radius: 50%;
+  margin-right: 10px;
+  height: 100px;
+  width: 100px;
+}
+
+.comment-text-section {
+  display: grid;
+  grid-template-rows: 30% 70%;
+}
+
+.comment-user-name {
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.comment-comment-text {
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
 }

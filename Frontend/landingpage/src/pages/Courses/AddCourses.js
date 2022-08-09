@@ -1,15 +1,7 @@
 import React, { useEffect } from 'react'
 import { useGlobalContext } from '../../context'
 import { Link, useNavigate } from 'react-router-dom'
-
-function getUserName() {
-    let data = localStorage.getItem('user');
-    if (data != null) {
-        data = JSON.parse(data);
-        return data.username;
-    }
-    return '';
-}
+import { getUserName } from '../../Utils'
 
 function addCourse(data) {
     console.log(JSON.stringify(data));
@@ -133,7 +125,7 @@ const AddCourses = () => {
         <>
             <div className='add-blog-div'>
                 <div className='add-blog-wrapper'></div>
-                <section className='add-blog-block'>
+                <section className='add-course-block'>
                     <header className='add-blog-header'>
                         <h1 className='add-blog-header-text'>Add New Course</h1>
                     </header>
@@ -157,31 +149,31 @@ const AddCourses = () => {
                                 {tagsError && <span className='add-blog-error-text'>Tags is required</span>}
                             </div>
 
-                            <div className='blog-input-wrapper'>
+                            <div className='content-input-wrapper'>
                                 <label className='add-blog-label'>Description</label>
-                                <textarea className='form-input-field' id="description" placeholder="Description" onChange={
+                                <textarea className='content-input-field' id="description" placeholder="Description" onChange={
                                     e => setDescription(e.target.value)
                                 } />
                                 {descriptionError && <span className='add-blog-error-text'>Description is required</span>}
                             </div>
 
-                            <div className='blog-input-wrapper'>
+                            <div className='content-input-wrapper'>
                                 <label className='add-blog-label'>Target Audience</label>
-                                <textarea className='form-input-field' id="target_audience" placeholder="Target Audience" onChange={
+                                <textarea className='content-input-field' id="target_audience" placeholder="Target Audience" onChange={
                                     e => setTargetAudience(e.target.value)
                                 } />
                                 {targetAudienceError && <span className='add-blog-error-text'>Target Audience is required</span>}
                             </div>
 
-                            <div className='blog-input-wrapper'>
+                            <div className='content-input-wrapper'>
                                 <label className='add-blog-label'>Outcomes</label>
-                                <textarea className='form-input-field' id="outcomes" placeholder="Outcomes" onChange={
+                                <textarea className='content-input-field' id="outcomes" placeholder="Outcomes" onChange={
                                     e => setOutcomes(e.target.value)
                                 } />
                                 {outcomesError && <span className='add-blog-error-text'>Outcomes is required</span>}
                             </div>
 
-                            <div className='blog-input-wrapper'>
+                            <div className='content-input-wrapper'>
                                 <label className='add-blog-label'>Outline</label>
                                 <textarea className='content-input-field' id="outline" placeholder="Outline" onChange={
                                     e => setOutline(e.target.value)
@@ -199,7 +191,6 @@ const AddCourses = () => {
 
 
                             <div className='blog-input-wrapper'>
-
                                 <button className='form-submit-button add-blog-button-margin' type="submit">Publish</button>
                             </div>
 

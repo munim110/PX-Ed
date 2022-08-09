@@ -15,8 +15,9 @@ import ProfilePage from './pages/Profile'
 // Courses
 import Courses from './pages/Courses/Courses'
 import AddCourse from './pages/Courses/AddCourses'
-import AddChapter from './pages/Courses/AddChapters'
 import Analysis from './pages/Analysis'
+import SingleCourse from './pages/Courses/SingleCourse'
+import AddChapter from './pages/Courses/AddChapter'
 
 // Blogs
 import SingleBlog from './pages/Blogs/SingleBlogPage'
@@ -29,7 +30,7 @@ import Error from './pages/Error'
 import { useGlobalContext } from './context'
 // import components
 import Navbar from './components/Navbar'
-import SingleCourse from './pages/Courses/SingleCourse'
+
 function App() {
   const { useNavbar, myUser, setMyUser, setAuthenticated, authenticated } = useGlobalContext();
 
@@ -47,7 +48,7 @@ function App() {
 
   return (
     <Router>
-      { useNavbar && <Navbar /> }
+      {useNavbar && <Navbar />}
       <Routes>
         // LandingPage
         <Route path="/" element={<LandingPage />} />
@@ -70,10 +71,9 @@ function App() {
         <Route path="/courses/:id" element={<Courses />} />
         <Route path="/analysis" element={<Analysis />} />
         <Route path='/addcourse' element={<AddCourse />} />
-        <Route path='/addchapter' element={<AddChapter />} />
         <Route path='/course/:id' element={<SingleCourse />} />
-        
-        
+        <Route path='/addchapter/:id' element={<AddChapter />} />
+
         // Error
         <Route path="*" element={<Error />} />
       </Routes>

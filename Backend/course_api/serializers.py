@@ -1,4 +1,3 @@
-import outcome
 from rest_framework import serializers
 from course_api.models import *
 
@@ -30,11 +29,12 @@ class ChapterSerializer(serializers.ModelSerializer):
         depth = 1
     
     def create(self, validated_data):
+        print(self.context['request'].data['outcome'])
         chapter = Chapter(
             name=validated_data['name'],
             description=validated_data['description'],
-            course= Course.objects.get(id=int(validated_data['course'])),
-            outcome = validated_data['outcomes'],
+            course= Course.objects.get(id=int(self.context['request'].data['course'])),
+            outcome = self.context['request'].data['outcome'],
         )
         chapter.save()
         return chapter
@@ -64,6 +64,7 @@ class VideoCommentSerializer(serializers.ModelSerializer):
         depth = 1
     
     def create(self, validated_data):
+        print(validated_data)
         video_comment = VideoComment(
             comment=validated_data['comment'],
             video= Video.objects.get(id=int(validated_data['video'])),
