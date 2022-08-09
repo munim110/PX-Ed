@@ -687,7 +687,9 @@ Add Blog
 
 .add-blog-block,
 .add-chapter-block,
-.add-course-block {
+.add-course-block,
+.all-chapters-block,
+.add-video-block {
   position: absolute;
   width: 90vh;
   padding: 25px;
@@ -834,6 +836,15 @@ Add Blog
   transform: translateY(20%);
 }
 
+.all-chapters-block{
+  transform: translateY(40%);
+}
+
+.add-video-block {
+  height: 53%;
+  transform: translateY(30%);
+}
+
 
 /* 
 ====== 
@@ -941,4 +952,44 @@ Comment Area
   font-size: 15px;
   font-weight: 500;
   text-decoration: none;
+}
+
+/* 
+====== 
+All Chapters For Instructor
+======
+*/
+
+.all-chapters-div{
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
+
+.all-chapters-header{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  width: 100%;
+  background-color: #afafaf;
+  margin-bottom: 10px;
+}
+
+.all-chapters-course-name{
+  font-size: 20px;
+  font-weight: 500;
+  color: #777777;
+  text-decoration: none;
+  margin-top: 10px;
+}
+
+.all-chapters-chapter-block{
+  display: block;
+  width: 100%;
+  height: 70px;
+  background-color: #c8cfda;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  cursor: pointer;
 }

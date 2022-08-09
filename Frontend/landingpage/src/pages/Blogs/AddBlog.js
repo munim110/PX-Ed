@@ -142,7 +142,6 @@ const AddBlog = () => {
 
                             <div className='blog-input-wrapper'>
                                 <button className='form-submit-button add-blog-button-margin' type="submit">Publish</button>
-                    
                             </div>
 
                         </div>

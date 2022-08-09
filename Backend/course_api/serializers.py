@@ -43,14 +43,13 @@ class VideoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Video
         fields = '__all__'
-        extra_kwargs = {'name': {'required': False}, 'description': {'required': False}, 'chapter': {'required': False}, 'video_url': {'required': False}}
+        extra_kwargs = {'description': {'required': False}, 'chapter': {'required': False}, 'video': {'required': False}}
         depth = 1
     
     def create(self, validated_data):
         video = Video(
-            name=validated_data['name'],
-            description=validated_data['description'],
-            chapter= Chapter.objects.get(id=int(validated_data['chapter'])),
+            description=self.context['request'].data['description'],
+            chapter= Chapter.objects.get(id=int(self.context['request'].data['chapter'])),
         )
         video.save()
         return video

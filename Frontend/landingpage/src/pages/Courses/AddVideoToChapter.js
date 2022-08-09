@@ -4,12 +4,13 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { getUserName } from '../../Utils'
 import Loading from '../../components/Loading'
 
-const CourseURL = 'http://127.0.0.1:8000/api/courses/'
-const addChapterURL = 'http://127.0.0.1:8000/api/add_chapters/'
+const addVideoURL = 'http://127.0.0.1:8000/api/add_videos/'
+const videoURL = 'http://127.0.0.1:8000/api/videos/'
+const CourseURL = 'http://127.0.0.1:8000/api/courses/';
 
-// Function to post new chapter to database
-function addChapter(data){
-    return fetch(addChapterURL, {
+// First add chapter, description to database
+function addVideoDetails(data) {
+    return fetch(addVideoURL, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -18,21 +19,28 @@ function addChapter(data){
     }).then(res => res.json()).catch(err => console.log(err));
 }
 
-const AddChapter = () => {
+// Then put video
+function putVideo(id, video){
+    return fetch(`${videoURL}${id}/`, {
+        method: 'PUT',
+        body: video
+    }).then(res => res.json()).catch(err => console.log(err));
+}
+
+const AddVideo = () => {
     // Contexts and Parameters
-    const { id } = useParams();
+    const { courseID, chapterID } = useParams();
     const { setUseNavbar, setAuthenticated, setSpecialUser } = useGlobalContext();
 
     // State
-    const [name, setName] = React.useState('');
-    const [description, setDescription] = React.useState('');
-    const [outcome, setOutcome] = React.useState('');
-    const [nameError, setNameError] = React.useState(false);
-    const [descriptionError, setDescriptionError] = React.useState(false);
-    const [outcomeError, setOutcomeError] = React.useState(false);
-    const [success, setSuccess] = React.useState(false);
     const [isInstructor, setIsInstructor] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
+    const [description, setDescription] = React.useState('');
+    const [video, setVideo] = React.useState('');
+    const [descriptionError, setDescriptionError] = React.useState(false);
+    const [videoError, setVideoError] = React.useState(false);
+    const [notAVideo, setNotAVideo] = React.useState(false);
+    const [success, setSuccess] = React.useState(false);
 
     // Load page
     useEffect(() => {
@@ -47,7 +55,7 @@ const AddChapter = () => {
         const fetchCourse = async () => {
             setLoading(true);
             try {
-                const response = await fetch(`${CourseURL}${id}/`);
+                const response = await fetch(`${CourseURL}${courseID}/`);
                 const data = await response.json();
                 console.log(data);
                 if (JSON.parse(localStorage.getItem('user'))) {
@@ -62,38 +70,56 @@ const AddChapter = () => {
             }
         }
         fetchCourse();
-    }, [id]);
+    }, [courseID]);
 
-    // Submit handler
+    // Navigator
+    const navigate = useNavigate();
+
+    // Functions
+    const isVideo = (file) => {
+        const ext = file.type;
+        console.log(ext);
+        return ext.split('/')[0] === 'video';
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setNameError(false);
         setDescriptionError(false);
-        setOutcomeError(false);
+        setVideoError(false);
+        setNotAVideo(false);
 
-        if (name == '' || description == '' || outcome == '') {
-            if (name == '') {
-                setNameError(true);
-            }
+        if (description == '' || video == '') {
             if (description == '') {
                 setDescriptionError(true);
             }
-            if (outcome == '') {
-                setOutcomeError(true);
+            if (video == '') {
+                setVideoError(true);
             }
         }
         else {
-            const data = await addChapter({ 'name' : name, 'description' : description, 'outcome' : outcome, 'course' : id });
-            console.log(data);
-            setSuccess(true);
+            if (!isVideo(video)) {
+                setNotAVideo(true);
+            }
+            else {
+                console.log(description, video);
+                const data = await addVideoDetails({ 'description' : description, 'chapter' : chapterID });
+                console.log(data);
+
+                // Assuming success
+                // Handle video upload
+                const formData = new FormData();
+                formData.append('video', video, video.name);
+                const response = await putVideo(data.id, formData);
+                console.log(response);
+                setSuccess(true);
+            }
         }
     }
 
-    // Navigator
-    let navigate = useNavigate();
+    // Success
     useEffect(() => {
         if (success) {
-            navigate('/course/' + id);
+            navigate(`/courses/${courseID}`);
         }
     } , [success]);
 
@@ -103,27 +129,20 @@ const AddChapter = () => {
     }
 
     if (!isInstructor) {
-        navigate(`/courses/${id}`);
+        navigate(`/courses/${courseID}`);
     }
 
     return (
         <>
-            <div className='add-blog-div'>
+            <div className="add-blog-div">
                 <div className='add-blog-wrapper'></div>
-                <section className='add-chapter-block'>
+                <section className='add-video-block'>
                     <header className='add-blog-header'>
-                        <h1 className='add-blog-header-text'>Add New Chapter to Course</h1>
+                        <h1 className='add-blog-header-text'>Add New Video to Chapter</h1>
                     </header>
 
                     <form className='add-course-form' onSubmit={handleSubmit}>
                         <div className='add-course-form-wrapper'>
-                            <div className='blog-input-wrapper'>
-                                <label className='add-blog-label'>Name</label>
-                                <input className='form-input-field' type="text" id="name" placeholder="Name" onChange={
-                                    e => setName(e.target.value)
-                                } />
-                                {nameError && <span className='add-blog-error-text'>Name is required</span>}
-                            </div>
 
                             <div className='content-input-wrapper'>
                                 <label className='add-blog-label'>Description</label>
@@ -133,16 +152,17 @@ const AddChapter = () => {
                                 {descriptionError && <span className='add-blog-error-text'>Description is required</span>}
                             </div>
 
-                            <div className='content-input-wrapper'>
-                                <label className='add-blog-label'>Outcome</label>
-                                <input className='content-input-field' type="text" id="outcome" placeholder="Outcome" onChange={
-                                    e => setOutcome(e.target.value)
+                            <div className='blog-input-wrapper'>
+                                <label className='add-blog-label'>Video</label>
+                                <input className='form-input-field' type="file" id="image" placeholder="Image" onChange={
+                                    e => setVideo(e.target.files[0])
                                 } />
-                                {outcomeError && <span className='add-blog-error-text'>Outcome is required</span>}
+                                {videoError && <span className='add-blog-error-text'>Video is required</span>}
+                                {notAVideo && <span className='add-blog-error-text'>File must be a video</span>}
                             </div>
 
                             <div className='blog-input-wrapper'>
-                                <button className='form-submit-button add-blog-button-margin' type="submit">Add Chapter</button>
+                                <button className='form-submit-button add-blog-button-margin' type="submit">Add Video</button>
                             </div>
 
                         </div>
@@ -153,4 +173,4 @@ const AddChapter = () => {
     );
 }
 
-export default AddChapter;
+export default AddVideo;

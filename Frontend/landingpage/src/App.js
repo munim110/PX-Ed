@@ -18,6 +18,8 @@ import AddCourse from './pages/Courses/AddCourses'
 import Analysis from './pages/Analysis'
 import SingleCourse from './pages/Courses/SingleCourse'
 import AddChapter from './pages/Courses/AddChapter'
+import AllChaptersInstrunctor from './pages/Courses/AllChaptersToAddVideo'
+import AddVideo from './pages/Courses/AddVideoToChapter'
 
 // Blogs
 import SingleBlog from './pages/Blogs/SingleBlogPage'
@@ -73,6 +75,8 @@ function App() {
         <Route path='/addcourse' element={<AddCourse />} />
         <Route path='/course/:id' element={<SingleCourse />} />
         <Route path='/addchapter/:id' element={<AddChapter />} />
+        <Route path='/addvideotocourse/:courseID' element={<AllChaptersInstrunctor />} />
+        <Route path='/addvideo/:courseID/:chapterID' element={<AddVideo />} />
 
         // Error
         <Route path="*" element={<Error />} />

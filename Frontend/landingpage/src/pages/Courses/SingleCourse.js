@@ -53,6 +53,7 @@ const SingleCourse = () => {
     return (
         <section className="section">
             {instructor && <Link to={`/addchapter/${id}`} className="btn btn-primary">Add Chapters</Link>}
+            {instructor && <Link to={`/addvideotocourse/${id}`} className="btn btn-primary">Add Video</Link>}
             <img src={course.thumbnail} alt={course.title} className="blog-thumbnail" />
             <div className="blog-title">
                 <h2>{course.title}</h2>
