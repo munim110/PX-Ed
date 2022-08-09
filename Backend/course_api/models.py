@@ -47,3 +47,20 @@ class isWatched(models.Model):
 
     def __str__(self):
         return self.user.username + " " + self.video.name
+    
+class CourseReview(models.Model):
+    user = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    review = models.TextField()
+    rating = models.IntegerField(default=0)
+    datetime = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.username + " " + self.course.name
+    
+class EnrolledCourses(models.Model):
+    user = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    
+    class Meta:
+        unique_together = ('user', 'course')

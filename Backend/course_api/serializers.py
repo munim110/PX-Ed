@@ -88,3 +88,35 @@ class isWatchedSerializer(serializers.ModelSerializer):
         )
         is_watched.save()
         return is_watched
+    
+class CourseReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CourseReview
+        fields = '__all__'
+        extra_kwargs = {'review': {'required': False}, 'course': {'required': False}, 'user': {'required': False}, 'rating': {'required': False}}
+        depth = 1
+    
+    def create(self, validated_data):
+        course_review = CourseReview(
+            review=self.context['request'].data['review'],
+            rating=self.context['request'].data['rating'],
+            course= Course.objects.get(id=int(self.context['request'].data['course'])),
+            user= SiteUser.objects.get(id=int(self.context['request'].data['user'])),
+        )
+        course_review.save()
+        return course_review
+    
+class EnrolledCoursesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EnrolledCourses
+        fields = '__all__'
+        extra_kwargs = {'user': {'required': False}, 'course': {'required': False}}
+        depth = 1
+        
+    def create(self, validated_data):
+        enrolled_course = EnrolledCourses(
+            user=SiteUser.objects.get(id=int(self.context['request'].data['user'])),
+            course=Course.objects.get(id=int(self.context['request'].data['course'])),
+        )
+        enrolled_course.save()
+        return enrolled_course

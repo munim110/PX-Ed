@@ -25,4 +25,21 @@ const tagArray = (tags) => {
     }
 }
 
-export { getUserName, formatDate, tagArray };
+// Rating to star array
+const ratingToStars = (rating) => {
+    let stars = [0, 0, 0, 0, 0];
+    let counter = 0;
+    while (rating > 0) {
+        if (rating >= 1) {
+            stars[counter] = 1;
+            rating -= 1;
+        } else {
+            stars[counter] = rating;
+            rating = 0;
+        }
+        counter++;
+    }
+    return stars;
+}
+
+export { getUserName, formatDate, tagArray, ratingToStars };

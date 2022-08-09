@@ -13,6 +13,9 @@ routers.register(r'video_comments', views.VideoCommentViewSet)
 routers.register(r'add_video_comments', views.addVideoCommentViewSet)
 routers.register(r'is_watched', views.isWatchedViewSet)
 routers.register(r'add_is_watched', views.addisWatchedViewSet)
+routers.register(r'reviews', views.CourseReviewViewSet)
+routers.register(r'add_review', views.addCourseReviewViewSet)
+routers.register(r'enrolledcourses', views.EnrolledCoursesViewset)
 
 
 urlpatterns = [

@@ -370,9 +370,19 @@ Form
 Single Blog Page
 ======
 */
-.blog-body {
+.blog-body,
+.course-body {
   display: grid;
+}
+
+.blog-body {
   grid-template-columns: 15% 80% 5%;
+}
+
+.course-body {
+  grid-template-columns: 14% 60% 24.5% 0.5%;
+  margin-bottom: 10px;
+  grid-gap: 10px;
 }
 
 .blog-thumbnail {
@@ -836,7 +846,7 @@ Add Blog
   transform: translateY(20%);
 }
 
-.all-chapters-block{
+.all-chapters-block {
   transform: translateY(40%);
 }
 
@@ -921,13 +931,18 @@ Comment Area
   text-decoration: none;
 }
 
-.comment-container {
+.comment-container,
+.review-area {
   display: grid;
   grid-template-columns: 120px auto;
   background-color: #afafaf;
   margin-bottom: 10px;
   width: 60%;
   height: 100px;
+}
+
+.review-area{
+  width: 100%;
 }
 
 .comment-profile-pic {
@@ -960,13 +975,13 @@ All Chapters For Instructor
 ======
 */
 
-.all-chapters-div{
+.all-chapters-div {
   display: flex;
   justify-content: center;
   height: 100%;
 }
 
-.all-chapters-header{
+.all-chapters-header {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -976,7 +991,7 @@ All Chapters For Instructor
   margin-bottom: 10px;
 }
 
-.all-chapters-course-name{
+.all-chapters-course-name {
   font-size: 20px;
   font-weight: 500;
   color: #777777;
@@ -984,7 +999,7 @@ All Chapters For Instructor
   margin-top: 10px;
 }
 
-.all-chapters-chapter-block{
+.all-chapters-chapter-block {
   display: block;
   width: 100%;
   height: 70px;
@@ -992,4 +1007,128 @@ All Chapters For Instructor
   margin-top: 5px;
   margin-bottom: 5px;
   cursor: pointer;
+}
+
+/* 
+====== 
+Course Area
+======
+*/
+
+.enroll-button {
+  height: 40px;
+  width: 15%;
+  display: inline-block;
+  padding: 15px 12px;
+  margin-bottom: 0;
+  font-size: 12px;
+  font-weight: 400;
+  text-transform: uppercase;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: none;
+  border-radius: 2 * var(--mainBorderRadius);
+  color: #fff;
+  background: #4c7fdd;
+  box-shadow: 0px 0px 13px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.course-target-audience-list,
+.outline-outcome-container {
+  background: rgba(51, 104, 129, 0.13);
+  border-radius: var(--mainBorderRadius);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.course-target-audience-list {
+  display: flex;
+  justify-content: left;
+  flex-direction: column;
+}
+
+.audience-list {
+  list-style-type: disc;
+  font-size: 1.15rem;
+  margin-left: 10%;
+}
+
+.course-outcome-outline {
+  display: grid;
+  grid-template-columns: 49% 49% 2%;
+  grid-gap: 20px;
+}
+
+.outline-outcome-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-left: 10px;
+  width: 100%;
+}
+
+.outline-outcome-list-container {
+  display: flex;
+  justify-content: left;
+  flex-direction: column;
+  width: 100%;
+  margin-left: 10%;
+}
+
+.review-container{
+  display: grid;
+  grid-template-columns: 20% 60% 20%;
+  margin-top: 1%;
+}
+
+.review-container-main{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.review-container-stars{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.single-star-outline {
+  height: 36px; 
+  width: 31px;
+}
+
+.single-star-fill {
+  position: relative;
+  display: inline-block;
+  height: 36px; 
+  background-color: #f4ff5b;
+}
+
+.single-star-container {
+  height: 36px; 
+  width: 31px;
+  display: inline-block;
+}
+
+.review-list{
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+  grid-template-rows: auto auto;
+  grid-gap: 2px;
+  margin-left: 2px;
+}
+
+.all-review-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }

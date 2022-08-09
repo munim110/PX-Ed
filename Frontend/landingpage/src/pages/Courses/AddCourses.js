@@ -56,8 +56,6 @@ const AddCourses = () => {
     const [imageError, setImageError] = React.useState(false);
     const [uniqueError, setUniqueError] = React.useState(false);
 
-    const publishDate = new Date().toISOString().slice(0, 10);
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setNameError(false);
@@ -159,7 +157,7 @@ const AddCourses = () => {
 
                             <div className='content-input-wrapper'>
                                 <label className='add-blog-label'>Target Audience</label>
-                                <textarea className='content-input-field' id="target_audience" placeholder="Target Audience" onChange={
+                                <textarea className='content-input-field' id="target_audience" placeholder="Target Audience, Seprarate by comma" onChange={
                                     e => setTargetAudience(e.target.value)
                                 } />
                                 {targetAudienceError && <span className='add-blog-error-text'>Target Audience is required</span>}
@@ -167,7 +165,7 @@ const AddCourses = () => {
 
                             <div className='content-input-wrapper'>
                                 <label className='add-blog-label'>Outcomes</label>
-                                <textarea className='content-input-field' id="outcomes" placeholder="Outcomes" onChange={
+                                <textarea className='content-input-field' id="outcomes" placeholder="Outcomes, Seprarate by comma" onChange={
                                     e => setOutcomes(e.target.value)
                                 } />
                                 {outcomesError && <span className='add-blog-error-text'>Outcomes is required</span>}
@@ -175,7 +173,7 @@ const AddCourses = () => {
 
                             <div className='content-input-wrapper'>
                                 <label className='add-blog-label'>Outline</label>
-                                <textarea className='content-input-field' id="outline" placeholder="Outline" onChange={
+                                <textarea className='content-input-field' id="outline" placeholder="Outline, Seprarate by comma" onChange={
                                     e => setOutline(e.target.value)
                                 } />
                                 {outlineError && <span className='add-blog-error-text'>Outline is required</span>}
