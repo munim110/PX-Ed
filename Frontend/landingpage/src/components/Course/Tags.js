@@ -12,11 +12,11 @@ const TagsComponent = ({ tags }) => {
     }
 
     const tag_color = {
-        color: '#777',
+        color: '#fff',
     }
 
     return (
-        <div className='blog-tags'>
+        <div className='course-tags'>
             {tags && tagArray(tags).map(tag => {
                 return <Link to={`/courses/`} key={tag} style={tag_color} onClick={() => searchForCourseByTag({ tag })}>#{tag} </Link>
             })}

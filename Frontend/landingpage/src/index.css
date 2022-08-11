@@ -83,7 +83,8 @@ Buttons
 */
 .btn,
 .btn-white,
-.btn-primary {
+.btn-primary,
+.enroll-button {
   text-transform: uppercase;
   letter-spacing: var(--mainSpacing);
   color: var(--primaryColor);
@@ -118,6 +119,19 @@ Buttons
   background: var(--primaryColor);
   color: var(--mainWhite);
   border-color: transparent;
+}
+
+.enroll-button {
+  background: #4c7fdd;
+  color: var(--mainWhite);
+  border-color: transparent;
+  margin-top: 1rem;
+  margin-right: 1rem;
+}
+
+.enroll-button:hover {
+  background: #476a2e;
+  color: var(--mainWhite);
 }
 
 .btn-primary:hover {
@@ -370,19 +384,12 @@ Form
 Single Blog Page
 ======
 */
-.blog-body,
-.course-body {
+.blog-body {
   display: grid;
 }
 
 .blog-body {
   grid-template-columns: 15% 80% 5%;
-}
-
-.course-body {
-  grid-template-columns: 14% 60% 24.5% 0.5%;
-  margin-bottom: 10px;
-  grid-gap: 10px;
 }
 
 .blog-thumbnail {
@@ -426,6 +433,12 @@ Single Blog Page
 .blog-tags {
   border-bottom: 1px solid #eee;
   border-bottom-color: #777777;
+  white-space: initial;
+}
+
+.course-tags {
+  display: block;
+  white-space: initial;
 }
 
 .blog-content {
@@ -941,7 +954,7 @@ Comment Area
   height: 100px;
 }
 
-.review-area{
+.review-area {
   width: 100%;
 }
 
@@ -1015,29 +1028,6 @@ Course Area
 ======
 */
 
-.enroll-button {
-  height: 40px;
-  width: 15%;
-  display: inline-block;
-  padding: 15px 12px;
-  margin-bottom: 0;
-  font-size: 12px;
-  font-weight: 400;
-  text-transform: uppercase;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  cursor: pointer;
-  background-image: none;
-  border: none;
-  border-radius: 2 * var(--mainBorderRadius);
-  color: #fff;
-  background: #4c7fdd;
-  box-shadow: 0px 0px 13px 8px rgba(0, 0, 0, 0.1);
-  margin-top: 10px;
-  margin-right: 10px;
-}
-
 .course-target-audience-list,
 .outline-outcome-container {
   background: rgba(51, 104, 129, 0.13);
@@ -1080,20 +1070,14 @@ Course Area
   margin-left: 10%;
 }
 
-.review-container{
-  display: grid;
-  grid-template-columns: 20% 60% 20%;
-  margin-top: 1%;
-}
-
-.review-container-main{
+.review-container-main {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
 
-.review-container-stars{
+.review-container-stars {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1101,24 +1085,24 @@ Course Area
 }
 
 .single-star-outline {
-  height: 36px; 
+  height: 36px;
   width: 31px;
 }
 
 .single-star-fill {
   position: relative;
   display: inline-block;
-  height: 36px; 
+  height: 36px;
   background-color: #f4ff5b;
 }
 
 .single-star-container {
-  height: 36px; 
+  height: 36px;
   width: 31px;
   display: inline-block;
 }
 
-.review-list{
+.review-list {
   display: grid;
   grid-template-columns: 33% 33% 33%;
   grid-template-rows: auto auto;
@@ -1126,9 +1110,289 @@ Course Area
   margin-left: 2px;
 }
 
-.all-review-container{
+.all-review-container {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+.top-dark-bg-container {
+  background-color: #1c1d1f;
+  padding-bottom: 3.2rem;
+}
+
+@media (min-width: 576px) {
+  .top-dark-bg-container {
+    padding-bottom: 3.2rem;
+  }
+}
+
+.dark-inner-bg-container {
+  margin: 0 auto;
+}
+
+@media (min-width: 576px) {
+  .dark-inner-bg-container {
+    max-width: 118.4rem;
+  }
+}
+
+.dark-bg-main-content {
+  margin-left: 4.8rem;
+  margin-right: 4.8rem;
+  color: #fff;
+  display: grid;
+  grid-template-columns: 60% 40%;
+}
+
+@media (min-width: 73.75em) {
+  .dark-bg-main-content {
+    max-width: 100rem;
+  }
+}
+
+.course-info {
+  font-weight: 400;
+  line-height: 1.4;
+  font-size: 1.4rem;
+}
+
+.course-name {
+  font-size: 3.2rem;
+  margin-bottom: 0.8rem;
+}
+
+.top-review-container {
+  margin-bottom: 0.8rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.top-review-score {
+  margin-left: 0.8rem;
+}
+
+.course-thumbnail-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 0.8rem;
+}
+
+.course-body {
+  max-width: 118.4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (min-width: 73.75em) {
+  .course-body {
+    max-width: 118.4rem;
+  }
+}
+
+.course-body-content {
+  margin-left: 4.8rem;
+  margin-right: 4.8rem;
+  padding-top: 3.2rem;
+}
+
+@media (min-width: 73.75em) {
+  .course-body-content {
+    max-width: 100rem;
+  }
+}
+
+.course-outcome {
+  padding-bottom: 1.6rem;
+  border: 1px solid #d1d7dc;
+  padding-top: 2.4rem;
+  margin-bottom: 3.2rem;
+}
+
+.course-outcome h2 {
+  margin: 0 2.4rem 1.6rem;
+}
+
+.outcome-list-container {}
+
+.outcome-list-content {
+  overflow: visible;
+  max-height: none !important;
+  position: relative;
+  width: 100%;
+  display: inline-block;
+}
+
+.course-outcome-list,
+.target-audience-list {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-between;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 40px;
+  width: 100%;
+  font-weight: 400;
+}
+
+.course-outcome-list {
+  max-height: 300px;
+}
+
+.target-audience-list {
+  list-style-type: disc;
+  justify-content: left;
+
+}
+
+.course-outcome-list li,
+.target-audience-list li {
+  margin-bottom: 1.6rem;
+  margin-right: 1.6rem;
+}
+
+.course-outcome-list li {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.target-audience-list li {
+  display: list-item;
+  list-style-type: disc;
+}
+
+.course-description,
+.target-audience,
+.review-container {
+  margin-bottom: 3.2rem;
+  font-weight: 400;
+  line-height: 1.4;
+  font-size: 1.4rem;
+}
+
+.review-container {
+  display: flex;
+  justify-items: left;
+  align-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.course-description h2,
+.target-audience h2,
+.review-container h2 {
+  margin-bottom: 1.6rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -.02rem;
+  font-size: 2.4rem;
+}
+
+.review-container {
+  flex-direction: row;
+}
+
+.review-container h2 {
+  margin: 0px;
+}
+
+.target-audience {
+  margin-top: 3.2rem;
+}
+
+.star-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #b4690e;
+}
+
+.star-container h2 {
+  font-size: 6.4rem;
+  font-weight: 700;
+  letter-spacing: -.02rem;
+}
+
+.review {
+  padding: 1.5rem 2rem;
+  text-align: center;
+  transition: all 0.3s linear;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 0.25rem;
+  background: #fff;
+}
+
+.review:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.review-img-container {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin: 0 auto;
+  margin-bottom: 1.5rem;
+}
+
+.review-img-container:before {
+  content: '';
+  width: 100%;
+  height: 100%;
+  background: hsl(205, 78%, 60%);
+  position: absolute;
+  top: -0.25rem;
+  right: -0.5rem;
+  border-radius: 50%;
+}
+
+.reviewer-img {
+  width: 100%;
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  position: relative;
+}
+
+.reviewer {
+  margin-bottom: 0.25rem;
+}
+
+.reviewer-rating {
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  color: hsl(205, 78%, 60%);
+  font-size: 0.85rem;
+}
+
+.review-text{
+  margin-bottom: 0.75rem;
+}
+
+.prev-btn,
+.next-btn {
+  color: hsl(205, 90%, 76%);
+  font-size: 1.25rem;
+  background: transparent;
+  border-color: transparent;
+  margin: 0 0.5rem;
+  transition: all 0.3s linear;
+  cursor: pointer;
+}
+.prev-btn:hover,
+.next-btn:hover {
+  color: hsl(205, 78%, 60%);
 }
