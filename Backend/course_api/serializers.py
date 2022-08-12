@@ -44,7 +44,7 @@ class VideoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Video
         fields = '__all__'
-        extra_kwargs = {'description': {'required': False}, 'chapter': {'required': False}, 'video': {'required': False}}
+        extra_kwargs = {'description': {'required': False}, 'chapter': {'required': False}, 'video': {'required': False}, 'name': {'required': False}}
         depth = 1
     
     def create(self, validated_data):
@@ -67,9 +67,9 @@ class VideoCommentSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         print(validated_data)
         video_comment = VideoComment(
-            comment=self.context['request'].data['comment'], 
-            video= Video.objects.get(id=int(self.context['request'].data['video'])),
-            user= SiteUser.objects.get(id=int(self.context['request'].data['user'])),
+            comment=validated_data['comment'],
+            video= Video.objects.get(id=int(validated_data['video'])),
+            user= SiteUser.objects.get(id=int(validated_data['user'])),
         )
         video_comment.save()
         return video_comment
@@ -86,7 +86,7 @@ class isWatchedSerializer(serializers.ModelSerializer):
         is_watched = isWatched(
             user= SiteUser.objects.get(id=int(self.context['request'].data['user'])),
             video= Video.objects.get(id=int(self.context['request'].data['video'])),
-            is_watched= self.context['request'].data['is_watched'] in ['true','True'],
+            is_watched= self.context['request'].data['is_watched'],
         )
         is_watched.save()
         return is_watched
