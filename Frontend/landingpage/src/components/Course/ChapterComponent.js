@@ -2,7 +2,7 @@ import { FaPlus, FaMinus } from 'react-icons/fa';
 import ChapterVideoComponent from './VideoComponent';
 import React, { useCallback, useState } from 'react';
 
-const CourseChapterComponent = ({ chapter, videos, chapterClickMethod, index }) => {
+const CourseChapterComponent = ({ chapter, videos, chapterClickMethod, index, videoClickMethod, isWatchedArray }) => {
     const [showVideoList, setShowVideoList] = useState(false);
 
     const handleChapterClick = useCallback(() => {
@@ -14,8 +14,21 @@ const CourseChapterComponent = ({ chapter, videos, chapterClickMethod, index }) 
         setShowVideoList(!showVideoList);
     }
 
+    const isVideoWatched = (videoId) => {
+        let retVal = false;
+        isWatchedArray.map(video => {
+            console.log(videoId);
+            if (parseInt(video.video_id) == parseInt(videoId)) {
+                console.log('true');
+                retVal = true;
+            }
+        })
+        console.log(retVal);
+        return retVal;
+    }
+
     return (
-        <div className='chapter-component-body' style={{"margin-bottom": "10px"}}>
+        <div className='chapter-component-body' style={{"marginBottom": "10px"}}>
             <div className='chapter-component-container'>
                 <div className='chapter-component-inner-container'>
                     {showVideoList ? <FaMinus onClick={toggleVideoList} /> : <FaPlus onClick={toggleVideoList} />}
@@ -26,8 +39,8 @@ const CourseChapterComponent = ({ chapter, videos, chapterClickMethod, index }) 
                 </div>
             </div>
             {showVideoList && <div className='video-component-body-container'>
-                {videos && videos.map(video => {
-                    return <ChapterVideoComponent key={video.id} video={video} />
+                {videos && videos.map((video, idx) => {
+                    return <ChapterVideoComponent key={video.id} video={video} videoClickMethod={videoClickMethod} index={idx} chapterIdx={index} isWatched={isVideoWatched(video.id)} />
                 })}
             </div>}
         </div>

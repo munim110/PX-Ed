@@ -82,7 +82,7 @@ class isWatchedViewSet(viewsets.ModelViewSet):
     queryset = isWatched.objects.all()
     serializer_class = isWatchedSerializer
     filter_backends = (filters.SearchFilter,)
-    search_fields = ['video__id']
+    search_fields = ['user__id']
 
 
 class addisWatchedViewSet(viewsets.ModelViewSet):

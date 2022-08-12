@@ -44,7 +44,7 @@ class VideoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Video
         fields = '__all__'
-        extra_kwargs = {'description': {'required': False}, 'chapter': {'required': False}, 'video': {'required': False}}
+        extra_kwargs = {'description': {'required': False}, 'chapter': {'required': False}, 'video': {'required': False}, 'name': {'required': False}}
         depth = 1
     
     def create(self, validated_data):
@@ -84,9 +84,9 @@ class isWatchedSerializer(serializers.ModelSerializer):
     
     def create(self, validated_data):
         is_watched = isWatched(
-            user= SiteUser.objects.get(id=int(validated_data['user'])),
-            video= Video.objects.get(id=int(validated_data['video'])),
-            is_watched= validated_data['is_watched'],
+            user= SiteUser.objects.get(id=int(self.context['request'].data['user'])),
+            video= Video.objects.get(id=int(self.context['request'].data['video'])),
+            is_watched= self.context['request'].data['is_watched'],
         )
         is_watched.save()
         return is_watched

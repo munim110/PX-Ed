@@ -1229,8 +1229,6 @@ Course Area
   margin: 0 2.4rem 1.6rem;
 }
 
-.outcome-list-container {}
-
 .outcome-list-content {
   overflow: visible;
   max-height: none !important;
@@ -1531,6 +1529,11 @@ Course Area
 .video-component-container {
   border-bottom: 1px solid #d1d7dc;
   width: 100%;
+  display: grid;
+  grid-template-columns: 90% 10%;
+}
+
+.video-name-container{
   display: flex;
   flex-direction: column;
   justify-content: center;
