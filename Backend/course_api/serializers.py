@@ -67,9 +67,9 @@ class VideoCommentSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         print(validated_data)
         video_comment = VideoComment(
-            comment=validated_data['comment'],
-            video= Video.objects.get(id=int(validated_data['video'])),
-            user= SiteUser.objects.get(id=int(validated_data['user'])),
+            comment=self.context['request'].data['comment'], 
+            video= Video.objects.get(id=int(self.context['request'].data['video'])),
+            user= SiteUser.objects.get(id=int(self.context['request'].data['user'])),
         )
         video_comment.save()
         return video_comment
@@ -84,9 +84,9 @@ class isWatchedSerializer(serializers.ModelSerializer):
     
     def create(self, validated_data):
         is_watched = isWatched(
-            user= SiteUser.objects.get(id=int(validated_data['user'])),
-            video= Video.objects.get(id=int(validated_data['video'])),
-            is_watched= validated_data['is_watched'],
+            user= SiteUser.objects.get(id=int(self.context['request'].data['user'])),
+            video= Video.objects.get(id=int(self.context['request'].data['video'])),
+            is_watched= self.context['request'].data['is_watched'] in ['true','True'],
         )
         is_watched.save()
         return is_watched

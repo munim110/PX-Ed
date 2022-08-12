@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'blog_api',
     'user_api',
     'course_api',
+    'exam_api',
 ]
 
 MIDDLEWARE = [
