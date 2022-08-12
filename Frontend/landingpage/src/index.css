@@ -1010,16 +1010,28 @@ All Chapters For Instructor
   color: #777777;
   text-decoration: none;
   margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .all-chapters-chapter-block {
   display: block;
   width: 100%;
-  height: 70px;
   background-color: #c8cfda;
   margin-top: 5px;
   margin-bottom: 5px;
   cursor: pointer;
+}
+
+.all-chapters-current-videos {
+  display: list-item;
+  list-style: disc;
+  font-size: 20px;
+  font-weight: 500;
+  color: #777777;
+  text-decoration: none;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 5rem;
 }
 
 /* 
@@ -1378,7 +1390,7 @@ Course Area
   font-size: 0.85rem;
 }
 
-.review-text{
+.review-text {
   margin-bottom: 0.75rem;
 }
 
@@ -1392,6 +1404,7 @@ Course Area
   transition: all 0.3s linear;
   cursor: pointer;
 }
+
 .prev-btn:hover,
 .next-btn:hover {
   color: hsl(205, 78%, 60%);

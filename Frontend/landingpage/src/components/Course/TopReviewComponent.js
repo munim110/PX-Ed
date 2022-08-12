@@ -1,4 +1,6 @@
 import { FaChevronLeft, FaChevronRight, FaQuoteRight } from 'react-icons/fa';
+import { StarComponentFFF } from './StarComponent';
+import { ratingToStars } from '../../Utils';
 
 const TopReviewComponent = ({ username, review, rating, profile_pic, onBackMethod, onFrontMethod }) => {
     return (
@@ -10,7 +12,7 @@ const TopReviewComponent = ({ username, review, rating, profile_pic, onBackMetho
                 </span>
             </div>
             <h4 className='reviewer'>{username}</h4>
-            <p className='reviewer-rating'>{rating}/5</p>
+            <StarComponentFFF starArray={ratingToStars(rating)} />
             <p className='review-text'>{review}</p>
             <div>
                 <button className='prev-btn' onClick={onBackMethod}>

@@ -24,11 +24,12 @@ class Chapter(models.Model):
         return self.name
 
 class Video(models.Model):
+    name = models.CharField(max_length=100)
     video = models.FileField(upload_to='videos')
     chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE)
     description = models.TextField(null=True, blank=True)
     def __str__(self):
-        return self.description
+        return self.name
 
 class VideoComment(models.Model):
     comment = models.TextField()

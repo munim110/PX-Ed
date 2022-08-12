@@ -37,9 +37,11 @@ const AddVideo = () => {
     const [loading, setLoading] = React.useState(true);
     const [description, setDescription] = React.useState('');
     const [video, setVideo] = React.useState('');
+    const [name, setName] = React.useState('');
     const [descriptionError, setDescriptionError] = React.useState(false);
     const [videoError, setVideoError] = React.useState(false);
     const [notAVideo, setNotAVideo] = React.useState(false);
+    const [nameError, setNameError] = React.useState(false);
     const [success, setSuccess] = React.useState(false);
 
     // Load page
@@ -87,13 +89,17 @@ const AddVideo = () => {
         setDescriptionError(false);
         setVideoError(false);
         setNotAVideo(false);
+        setNameError(false);
 
-        if (description == '' || video == '') {
+        if (description == '' || video == '' || name == '') {
             if (description == '') {
                 setDescriptionError(true);
             }
             if (video == '') {
                 setVideoError(true);
+            }
+            if (name == '') {
+                setNameError(true);
             }
         }
         else {
@@ -102,7 +108,7 @@ const AddVideo = () => {
             }
             else {
                 console.log(description, video);
-                const data = await addVideoDetails({ 'description' : description, 'chapter' : chapterID });
+                const data = await addVideoDetails({ 'description' : description, 'chapter' : chapterID, 'name' : name });
                 console.log(data);
 
                 // Assuming success
@@ -144,6 +150,12 @@ const AddVideo = () => {
                     <form className='add-course-form' onSubmit={handleSubmit}>
                         <div className='add-course-form-wrapper'>
 
+                            <div className='blog-input-wrapper'>
+                                <label className='blog-input-label'>Name</label>
+                                <input className='form-input-field' type='text' value={name} onChange={(e) => setName(e.target.value)} />
+                                {nameError && <p className='blog-input-error'>Please enter a name</p>}
+                            </div>
+
                             <div className='content-input-wrapper'>
                                 <label className='add-blog-label'>Description</label>
                                 <input className='content-input-field' type="text" id="description" placeholder="Description" onChange={
@@ -154,7 +166,7 @@ const AddVideo = () => {
 
                             <div className='blog-input-wrapper'>
                                 <label className='add-blog-label'>Video</label>
-                                <input className='form-input-field' type="file" id="image" placeholder="Image" onChange={
+                                <input className='form-input-field' type="file" id="image" placeholder="Video" onChange={
                                     e => setVideo(e.target.files[0])
                                 } />
                                 {videoError && <span className='add-blog-error-text'>Video is required</span>}

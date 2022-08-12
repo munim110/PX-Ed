@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import Loading from '../../components/Loading'
 import { useParams, Link } from 'react-router-dom'
 import { useGlobalContext } from '../../context'
-import { getUserName, tagArray, ratingToStars } from '../../Utils'
+import { getUserName, tagArray, ratingToStars, getUserID } from '../../Utils'
 import TagsComponent from '../../components/Course/Tags';
 import { StarComponent, StarComponentWhite } from '../../components/Course/StarComponent';
 import TopReviewComponent from '../../components/Course/TopReviewComponent';
@@ -11,12 +11,24 @@ import TopReviewComponent from '../../components/Course/TopReviewComponent';
 const url = 'http://127.0.0.1:8000/api/courses/'
 const courseReviewURL = 'http://127.0.0.1:8000/api/reviews/?search='
 const chapterURL = 'http://127.0.0.1:8000/api/chapters/?search='
+const enrollmentURL = 'http://127.0.0.1:8000/api/enrolledcourses/'
+const enrolledCourses = 'http://127.0.0.1:8000/api/enrolledcourses/?search='
+
+function enrollUserToCourse(data){
+    return fetch(enrollmentURL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).then(res => res.json()).catch(err => console.log(err));
+}
 
 const SingleCourse = () => {
     // Contexts and Parameters
     const { id } = useParams();
     const { setCourseSearchTerm } = useGlobalContext();
-    const { useNavbar, setUseNavbar, setAuthenticated, setSpecialUser } = useGlobalContext();
+    const { authenticated, setUseNavbar, setAuthenticated, setSpecialUser } = useGlobalContext();
 
     // State
     const [course, setCourse] = React.useState({});
@@ -29,6 +41,7 @@ const SingleCourse = () => {
     const [newStars, setNewStars] = React.useState([0, 0, 0, 0, 0]);
     const [chapterCount, setChapterCount] = React.useState(0);
     const [reviewIndex, setReviewIndex] = React.useState(0);
+    const [enrolled, setEnrolled] = React.useState(false);
 
     useEffect(() => {
         setUseNavbar(true);
@@ -65,13 +78,22 @@ const SingleCourse = () => {
                 const response = await fetch(`${url}${id}/`);
                 const reviewResponse = await fetch(`${courseReviewURL}${id}`);
                 const chapterResponse = await fetch(`${chapterURL}${id}`);
+                const enrolledResponse = await fetch(`${enrolledCourses}${getUserID()}`);
+
                 const data = await response.json();
                 const reviewData = await reviewResponse.json();
                 const chapterData = await chapterResponse.json();
+                const enrolledData = await enrolledResponse.json();
+
+                // Course data
                 setCourse(data);
+
+                // Chapter data
                 if (chapterData.length > 0) {
                     setChapterCount(chapterData.length);
                 }
+
+                // Review data
                 if (reviewData.length > 0) {
                     let starCount = 0;
                     let userReviewIndex = -1;
@@ -104,6 +126,15 @@ const SingleCourse = () => {
                     setTotalReviews(cs.length);
                     setTotalRating(starCount);
                     setReviews(cs);
+
+                    // Enrollment data
+                    if (enrolledData.length > 0) {
+                        enrolledData.map(e => {
+                            if (parseInt(e.course.id) == parseInt(id)) {
+                                setEnrolled(true);
+                            }
+                        })
+                    }
                 }
                 if (JSON.parse(localStorage.getItem('user'))) {
                     if (getUserName() === data.instructor) {
@@ -145,6 +176,14 @@ const SingleCourse = () => {
         });
     };
 
+    const enrollCourse = async () => {
+        console.log(course.id);
+        console.log(getUserID());
+        const data = { course: course.id, user: getUserID() };
+        const response = await enrollUserToCourse(data);
+        console.log(response);
+    }
+
     if (loading) {
         return <Loading />
     }
@@ -168,7 +207,8 @@ const SingleCourse = () => {
                             <img src={course.thumbnail} alt={course.name} />
                             <span>
                                 {/* TODO Check if enrolled, if is not, then show enroll button, if is then show chapters */}
-                                {!instructor && <Link to={`/courses/${id}`} className='enroll-button'></Link>}
+                                {!instructor && authenticated && !enrolled && <button className='enroll-button' onClick={enrollCourse}>Enroll Course</button>}
+                                {!instructor && authenticated && enrolled && <Link to={`/chapters/${id}`} className="enroll-button">See Chapters</Link>}
                                 {instructor && <Link to={`/addchapter/${id}`} className="enroll-button">Add Chapters</Link>}
                                 {instructor && <Link to={`/addvideotocourse/${id}`} className="enroll-button">Add Video</Link>}
                             </span>

@@ -6,6 +6,7 @@ import Loading from '../../components/Loading'
 
 const chapterURL = 'http://127.0.0.1:8000/api/chapters/?search=';
 const CourseURL = 'http://127.0.0.1:8000/api/courses/';
+const currentVideoURL = 'http://127.0.0.1:8000/api/videos/?search='
 
 const AllChaptersInstrunctor = () => {
     // Contexts and Parameters
@@ -17,6 +18,7 @@ const AllChaptersInstrunctor = () => {
     const [loading, setLoading] = React.useState(true);
     const [chapters, setChapters] = React.useState([]);
     const [courseName, setCourseName] = React.useState('');
+    const [subChapters, setSubChapters] = React.useState({});
 
     // Load page
     useEffect(() => {
@@ -78,6 +80,39 @@ const AllChaptersInstrunctor = () => {
         }
     }, [isInstructor]);
 
+    useEffect(() => {
+        // Fetch video names under chapters
+        setLoading(true);
+        chapters.forEach(async (chapter) => {
+            const fetchVideos = async () => {
+                try {
+                    const response = await fetch(`${currentVideoURL}${chapter.id}`);
+                    const data = await response.json();
+                    console.log(data);
+                    if (data.length > 0) {
+                        const videos = data.map(v => {
+                            console.log(v);
+                            return {
+                                id: v.id,
+                                name: v.name,
+                            };
+                        });
+                        setSubChapters({ ...subChapters, [chapter.id]: videos });
+                    }
+                } catch (err) {
+                    console.log(err)
+                } finally {
+                    setLoading(false);
+                }
+            }
+            fetchVideos();
+        })
+    }, [chapters]);
+
+    useEffect(() => {
+        console.log(subChapters);
+    }, [subChapters]);
+
     // Navigator
     let navigate = useNavigate();
 
@@ -113,6 +148,13 @@ const AllChaptersInstrunctor = () => {
                             <div className='all-chapters-chapter-block' key={c.id}>
                                 <div className='all-chapters-chapter-name' key={c.id} onClick={editChapter(c.id)}>
                                     <h1>{c.name}</h1>
+                                    {subChapters[c.id] ? <ul className='all-chapters-current-videos'>
+                                        {subChapters[c.id] && subChapters[c.id].map(v => {
+                                            return (
+                                                <li key={v.id}>{v.name}</li>
+                                            )
+                                        })}
+                                    </ul> : <p className='all-chapters-current-videos'>No videos in the chapter</p>}
                                 </div>
                             </div>
                         )

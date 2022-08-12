@@ -8,6 +8,15 @@ const getUserName = () => {
     return '';
 }
 
+const getUserID = () => {
+    let data = localStorage.getItem('user');
+    if (data != null) {
+        data = JSON.parse(data);
+        return data.id;
+    }
+    return '';
+}
+
 // Format Date
 const formatDate = (date) => {
     const monthNames = ["January", "February", "March", "April", "May", "June",
@@ -42,4 +51,4 @@ const ratingToStars = (rating) => {
     return stars;
 }
 
-export { getUserName, formatDate, tagArray, ratingToStars };
+export { getUserName, formatDate, tagArray, ratingToStars, getUserID };

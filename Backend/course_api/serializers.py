@@ -1,3 +1,4 @@
+from unicodedata import name
 from rest_framework import serializers
 from course_api.models import *
 
@@ -50,6 +51,7 @@ class VideoSerializer(serializers.ModelSerializer):
         video = Video(
             description=self.context['request'].data['description'],
             chapter= Chapter.objects.get(id=int(self.context['request'].data['chapter'])),
+            name = self.context['request'].data['name'],
         )
         video.save()
         return video
