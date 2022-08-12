@@ -1294,11 +1294,17 @@ Course Area
 }
 
 .review-container {
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+  grid-gap: 3rem;
+}
+
+.review-mark-container {
   display: flex;
-  justify-items: left;
+  flex-direction: column;
+  margin-left: 10%;
   align-content: flex-start;
   align-items: flex-start;
-  flex-direction: column;
 }
 
 .course-description h2,
@@ -1408,4 +1414,54 @@ Course Area
 .prev-btn:hover,
 .next-btn:hover {
   color: hsl(205, 78%, 60%);
+}
+
+.add-review-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-review-container h3 {
+  margin-bottom: 1.6rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -.02rem;
+  font-size: 2.4rem;
+}
+
+.add-review-container h4 {
+  margin-bottom: 1.6rem;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -.02rem;
+  font-size: 1.4rem;
+}
+
+.single-digit-input {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  padding-bottom: .2em;
+}
+
+.single-digit-input:after {
+  content: "—";
+  line-height: .3em;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.single-digit {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  width: 1.5em;
+  font-size: 1em;
 }

@@ -13,10 +13,32 @@ const courseReviewURL = 'http://127.0.0.1:8000/api/reviews/?search='
 const chapterURL = 'http://127.0.0.1:8000/api/chapters/?search='
 const enrollmentURL = 'http://127.0.0.1:8000/api/enrolledcourses/'
 const enrolledCourses = 'http://127.0.0.1:8000/api/enrolledcourses/?search='
+const reviewsURL = 'http://127.0.0.1:8000/api/reviews/'
+const addCourseReviewURL = 'http://127.0.0.1:8000/api/add_review/'
 
-function enrollUserToCourse(data){
+function enrollUserToCourse(data) {
     return fetch(enrollmentURL, {
         method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).then(res => res.json()).catch(err => console.log(err));
+}
+
+function postReview(data) {
+    return fetch(addCourseReviewURL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).then(res => res.json()).catch(err => console.log(err));
+}
+
+function putReview(data, id) {
+    return fetch(`${reviewsURL}${id}/`, {
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -42,6 +64,12 @@ const SingleCourse = () => {
     const [chapterCount, setChapterCount] = React.useState(0);
     const [reviewIndex, setReviewIndex] = React.useState(0);
     const [enrolled, setEnrolled] = React.useState(false);
+    const [userReview, setUserReview] = React.useState('');
+    const [reviewInput, setReviewInput] = React.useState('');
+    const [reviewError, setReviewError] = React.useState(false);
+    const [starInput, setStarInput] = React.useState(0);
+    const [starError, setStarError] = React.useState(false);
+    const [reviewSuccess, setReviewSuccess] = React.useState(false);
 
     useEffect(() => {
         setUseNavbar(true);
@@ -100,6 +128,7 @@ const SingleCourse = () => {
                     const cs = reviewData.map(c => {
                         starCount += c.rating;
                         return {
+                            id: c.id,
                             username: c.user.username,
                             review: c.review,
                             rating: c.rating,
@@ -113,6 +142,9 @@ const SingleCourse = () => {
                     cs.map((c, index) => {
                         if (c.username === getUserName()) {
                             userReviewIndex = index;
+                            setUserReview(c);
+                            setStarInput(c.rating);
+                            setReviewInput(c.review);
                         }
                     });
 
@@ -151,6 +183,13 @@ const SingleCourse = () => {
         fetchCourse();
     }, [id]);
 
+    useEffect(() => {
+        if(reviewSuccess){
+            window.location.reload();
+            setReviewSuccess(false);
+        }
+    } , [reviewSuccess]);
+
     // Functions
     const checkNumber = (number) => {
         if (number > reviews.length - 1) {
@@ -182,6 +221,46 @@ const SingleCourse = () => {
         const data = { course: course.id, user: getUserID() };
         const response = await enrollUserToCourse(data);
         console.log(response);
+    }
+
+    const submitReview = async (e) => {
+        e.preventDefault();
+        setReviewError(false);
+        setStarError(false);
+        setReviewSuccess(false);
+
+        if (reviewInput == '' || starInput == 0) {
+            if (reviewInput == '') {
+                setReviewError(true);
+            }
+            if (starInput == 0) {
+                setStarError(true);
+            }
+        }
+        else {
+            const data = {
+                course: id,
+                user: getUserID(),
+                review: reviewInput,
+                rating: starInput,
+            };
+            // New Review
+            if (userReview == '') {
+                const response = await postReview(data);
+                console.log(response);
+                setReviewInput('');
+                setStarInput(0);
+                setReviewSuccess(true);
+            }
+            // Update Review
+            else {
+                const response = await putReview(data, userReview.id);
+                console.log(response);
+                setReviewInput('');
+                setStarInput(0);
+                setReviewSuccess(true);
+            }
+        }
     }
 
     if (loading) {
@@ -259,7 +338,8 @@ const SingleCourse = () => {
                     </div>
 
                     <div className='review-container'>
-                        <div>
+
+                        <div className='review-mark-container'>
                             <h2>Reviews</h2>
                             <div className='star-container'>
                                 <h2>{averageRating.toPrecision(2)}</h2>
@@ -267,9 +347,45 @@ const SingleCourse = () => {
                                 Course Rating
                             </div>
                         </div>
+
                         <div>
                             <TopReviewComponent {...reviews[reviewIndex]} onBackMethod={prevReview} onFrontMethod={nextReview} />
                         </div>
+
+                        <div>
+                            {enrolled ? <div className='add-review-container'>
+                                <h3>Add A Review</h3>
+                                <form onSubmit={submitReview}>
+                                    {userReview == '' ? <h4>Rating: <div className='single-digit-input'><input type="number" min={1} max={5} className='single-digit' onChange={
+                                        (e) => {
+                                            setStarInput(e.target.value);
+                                        }
+                                    } /></div> / 5</h4> :
+                                        <h4>Rating: <div className='single-digit-input'><input type="number" min={1} max={5} defaultValue={parseInt(userReview.rating)} className='single-digit' onChange={
+                                            (e) => {
+                                                setStarInput(e.target.value);
+                                            }
+                                        } /></div> / 5</h4>}
+                                    {starError && <span className='add-blog-error-text'>Rating is required</span>}
+                                    <div className='content-input-wrapper' style={{ "height": "138px" }}>
+                                        {userReview == '' ? <input className='content-input-field' type="text" id="review" placeholder="Write Review" onChange={
+                                            (e) => {
+                                                setReviewInput(e.target.value);
+                                            }
+                                        } /> : <input className='content-input-field' type="text" id="review" placeholder="Write Review" defaultValue={userReview.review} onChange={
+                                            (e) => {
+                                                setReviewInput(e.target.value);
+                                            }
+                                        } />}
+                                        {reviewError && <span className='add-blog-error-text'>Review is required</span>}
+                                    </div>
+                                    <div className='blog-input-wrapper'>
+                                        {userReview == '' ? <button className='form-submit-button add-blog-button-margin' type="submit">Add Review</button> : <button className='form-submit-button add-blog-button-margin' type="submit">Update Review</button>}
+                                    </div>
+                                </form>
+                            </div> : <></>}
+                        </div>
+
                     </div>
 
                 </div>
