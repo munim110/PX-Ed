@@ -55,6 +55,11 @@ class VideoSerializer(serializers.ModelSerializer):
         )
         video.save()
         return video
+    
+    def delete(self, validated_data):
+        video = Video.objects.get(id=int(self.context['request'].data['id']))
+        video.delete()
+        return video
 
 
 class VideoCommentSerializer(serializers.ModelSerializer):
