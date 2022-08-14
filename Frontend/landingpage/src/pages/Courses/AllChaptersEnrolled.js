@@ -28,7 +28,7 @@ const AllChaptersStudent = () => {
     const [loading, setLoading] = React.useState(true);
     const [chapters, setChapters] = React.useState([]);
     const [course, setCourse] = React.useState('');
-    const [videos, setVideos] = React.useState({});
+    const [videos, setVideos] = React.useState([]);
     const [chapterIndex, setChapterIndex] = React.useState(0);
     const [videoIndex, setVideoIndex] = React.useState(0);
     const [focusOnChapter, setFocusOnChapter] = React.useState(true);
@@ -93,7 +93,7 @@ const AllChaptersStudent = () => {
                     const hasWatchedData = await hasWatchedResponse.json();
                     console.log(hasWatchedData);
                     if (data.length > 0) {
-                        const videos = data.map(v => {
+                        const videoChap = data.map(v => {
                             return {
                                 id: v.id,
                                 name: v.name,
@@ -101,7 +101,7 @@ const AllChaptersStudent = () => {
                                 description: v.description,
                             };
                         });
-                        setVideos({ [chapter.id]: videos });
+                        setVideos(oldVids => [...oldVids, videoChap]);
                     }
 
                     if(hasWatchedData.length > 0) {
@@ -193,7 +193,7 @@ const AllChaptersStudent = () => {
                     <div>
                         <h2>Chapters</h2>
                         {chapters.map((chapter, index) => {
-                            return <CourseChapterComponent key={index} chapter={chapter} videos={videos[chapter.id]} chapterClickMethod={handleChapterClick} index={index} videoClickMethod={handleVideoClick} isWatchedArray={isWatched} />
+                            return <CourseChapterComponent key={index} chapter={chapter} videos={videos[index]} chapterClickMethod={handleChapterClick} index={index} videoClickMethod={handleVideoClick} isWatchedArray={isWatched} />
                         })}
                     </div>
                 </div>
