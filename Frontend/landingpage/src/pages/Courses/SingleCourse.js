@@ -113,6 +113,8 @@ const SingleCourse = () => {
                 const chapterData = await chapterResponse.json();
                 const enrolledData = await enrolledResponse.json();
 
+                console.log(enrolledData);
+
                 // Course data
                 setCourse(data);
 
@@ -158,16 +160,18 @@ const SingleCourse = () => {
                     setTotalReviews(cs.length);
                     setTotalRating(starCount);
                     setReviews(cs);
-
-                    // Enrollment data
-                    if (enrolledData.length > 0) {
-                        enrolledData.map(e => {
-                            if (parseInt(e.course.id) == parseInt(id)) {
-                                setEnrolled(true);
-                            }
-                        })
-                    }
                 }
+
+                // Enrollment data
+                if (enrolledData.length > 0) {
+                    console.log(enrolledData);
+                    enrolledData.map(e => {
+                        if (parseInt(e.course.id) == parseInt(id)) {
+                            setEnrolled(true);
+                        }
+                    })
+                }
+
                 if (JSON.parse(localStorage.getItem('user'))) {
                     if (getUserName() === data.instructor) {
                         setInstructor(true);
@@ -221,6 +225,7 @@ const SingleCourse = () => {
         const data = { course: course.id, user: getUserID() };
         const response = await enrollUserToCourse(data);
         console.log(response);
+        window.location.reload();
     }
 
     const submitReview = async (e) => {

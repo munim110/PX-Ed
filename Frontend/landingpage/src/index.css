@@ -1547,5 +1547,20 @@ Course Area
 }
 
 .instructor-video-bar{
-  
+  display: grid;
+  grid-template-columns: 90% 10%;
+  font-size: 20px;
+  font-weight: 500;
+  color: #777777;
+  text-decoration: none;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 5rem;
+}
+
+.instructor-video-bar-inner{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

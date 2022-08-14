@@ -125,7 +125,7 @@ const AddVideo = () => {
     // Success
     useEffect(() => {
         if (success) {
-            navigate(`/courses/${courseID}`);
+            navigate(`/addvideotocourse/${courseID}`);
         }
     } , [success]);
 

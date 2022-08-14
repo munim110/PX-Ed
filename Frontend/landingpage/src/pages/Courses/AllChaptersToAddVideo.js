@@ -84,6 +84,7 @@ const AllChaptersInstrunctor = () => {
         // Fetch video names under chapters
         setLoading(true);
         chapters.forEach(async (chapter) => {
+            console.log(`${currentVideoURL}${chapter.id}`);
             const fetchVideos = async () => {
                 try {
                     const response = await fetch(`${currentVideoURL}${chapter.id}`);
@@ -97,6 +98,7 @@ const AllChaptersInstrunctor = () => {
                                 name: v.name,
                             };
                         });
+                        console.log(chapter.id);
                         setSubChapters({ ...subChapters, [chapter.id]: videos });
                     }
                 } catch (err) {
@@ -106,6 +108,7 @@ const AllChaptersInstrunctor = () => {
                 }
             }
             fetchVideos();
+            console.log(chapters)
         })
     }, [chapters]);
 
