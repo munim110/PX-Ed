@@ -16,19 +16,22 @@ const CourseChapterComponent = ({ chapter, videos, chapterClickMethod, index, vi
 
     const isVideoWatched = (videoId) => {
         let retVal = false;
-        isWatchedArray.map(video => {
-            console.log(videoId);
-            if (parseInt(video.video_id) == parseInt(videoId)) {
-                console.log('true');
-                retVal = true;
-            }
-        })
-        console.log(retVal);
+        console.log(isWatchedArray);
+        if (isWatchedArray.length > 0) {
+            isWatchedArray.map(video => {
+                console.log(videoId);
+                if (parseInt(video.video_id) == parseInt(videoId)) {
+                    console.log('true');
+                    retVal = true;
+                }
+            })
+            console.log(retVal);
+        }
         return retVal;
     }
 
     return (
-        <div className='chapter-component-body' style={{"marginBottom": "10px"}}>
+        <div className='chapter-component-body' style={{ "marginBottom": "10px" }}>
             <div className='chapter-component-container'>
                 <div className='chapter-component-inner-container'>
                     {showVideoList ? <FaMinus onClick={toggleVideoList} /> : <FaPlus onClick={toggleVideoList} />}
