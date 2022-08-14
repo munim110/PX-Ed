@@ -22,6 +22,8 @@ import AllChaptersInstrunctor from './pages/Courses/AllChaptersToAddVideo'
 import AddVideo from './pages/Courses/AddVideoToChapter'
 import AllChaptersStudent from './pages/Courses/AllChaptersEnrolled'
 import EditCourse from './pages/Courses/EditCourse'
+import EditChapter from './pages/Courses/EditChapter'
+import AllChaptersInstructor from './pages/Courses/AllChaptersInstructor'
 
 // Blogs
 import SingleBlog from './pages/Blogs/SingleBlogPage'
@@ -81,6 +83,8 @@ function App() {
         <Route path='/addvideo/:courseID/:chapterID' element={<AddVideo />} />
         <Route path='/chapters/:courseID' element={<AllChaptersStudent />} />
         <Route path='/editcourse/:courseID' element={<EditCourse />} />
+        <Route path='/editchapter/:chapterID' element={<EditChapter />} />
+        <Route path='/chaptersinstructor/:courseID' element={<AllChaptersInstructor />} />
 
         // Error
         <Route path="*" element={<Error />} />
