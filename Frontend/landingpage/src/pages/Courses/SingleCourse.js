@@ -288,6 +288,7 @@ const SingleCourse = () => {
                                 {/* TODO Check if enrolled, if is not, then show enroll button, if is then show chapters */}
                                 {!instructor && authenticated && !enrolled && <button className='enroll-button' onClick={enrollCourse}>Enroll Course</button>}
                                 {!instructor && authenticated && enrolled && <Link to={`/chapters/${id}`} className="enroll-button">See Chapters</Link>}
+                                {instructor && <Link to={`/editcourse/${id}`} className="enroll-button">Edit Course</Link>}
                                 {instructor && <Link to={`/addchapter/${id}`} className="enroll-button">Add Chapters</Link>}
                                 {instructor && <Link to={`/addvideotocourse/${id}`} className="enroll-button">Add Video</Link>}
                             </span>
