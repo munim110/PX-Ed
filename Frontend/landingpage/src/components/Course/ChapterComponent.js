@@ -19,9 +19,7 @@ const CourseChapterComponent = ({ chapter, videos, chapterClickMethod, index, vi
         console.log(isWatchedArray);
         if (isWatchedArray.length > 0) {
             isWatchedArray.map(video => {
-                console.log(videoId);
                 if (parseInt(video.video_id) == parseInt(videoId)) {
-                    console.log('true');
                     retVal = true;
                 }
             })

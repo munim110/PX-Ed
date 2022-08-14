@@ -8,7 +8,7 @@ class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     filter_backends = (filters.SearchFilter,)
-    search_fields = ['=name', '=instructor', 'tags']
+    search_fields = ['name', 'instructor', 'tags']
 
 class addCourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()

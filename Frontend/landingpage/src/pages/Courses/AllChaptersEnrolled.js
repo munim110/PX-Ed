@@ -83,6 +83,7 @@ const AllChaptersStudent = () => {
     // Fetch videos info
     useEffect(() => {
         // Fetch video names under chapters
+        console.log(chapters);
         setLoading(true);
         chapters.forEach(async (chapter) => {
             const fetchVideos = async () => {
@@ -99,6 +100,7 @@ const AllChaptersStudent = () => {
                                 name: v.name,
                                 url: v.video,
                                 description: v.description,
+                                chapter: chapter.id,
                             };
                         });
                         setVideos(oldVids => [...oldVids, videoChap]);
@@ -126,7 +128,6 @@ const AllChaptersStudent = () => {
 
     useEffect(() => {
         console.log(videos);
-        console.log(chapters[chapterIndex]);
     }, [videos]);
 
     useEffect(() => {
@@ -141,15 +142,29 @@ const AllChaptersStudent = () => {
         setFocusOnChapter(true);
     }
 
+    const getVideoChapterIndex = (vid) => {
+        console.log(vid)
+        let retval = 0;
+        videos.forEach((vjson, i) => {
+            vjson.forEach((v, j) => {
+                console.log(v);
+                if (parseInt(v.id) == parseInt(vid)) {
+                    retval = i;
+                }
+            })
+        })
+        return retval;
+    }
+
     const handleVideoClick = (index, chapterIdx) => {
-        setChapterIndex(chapterIdx);
+        console.log(videos[getVideoChapterIndex(chapterIdx)])
+        setChapterIndex(getVideoChapterIndex(chapterIdx));
         setVideoIndex(index);
         setFocusOnChapter(false);
     }
 
     useEffect(() => {
         if (!focusOnChapter) {
-            console.log(videos[chapters[chapterIndex].id][videoIndex].url);
         }
     }, [focusOnChapter]);
 
@@ -157,9 +172,19 @@ const AllChaptersStudent = () => {
     const onVideoStart = () => {
         console.log('Started Video');
         // Add video to watched
-        const data = { video: videos[chapters[chapterIndex].id][videoIndex].id, user: getUserID(), is_watched : true };
+        const data = { video: videos[chapterIndex][videoIndex].id, user: getUserID(), is_watched : true };
         const response = addIsWatched(data);
         console.log(response);
+    }
+
+    const chapVideoIndex = (id) => {
+        let retVal = 0;
+        videos.forEach((chap, index) => {
+            if (parseInt(chap[0].chapter) == parseInt(id)) {
+                retVal = index;
+            }
+        })
+        return retVal;
     }
 
     if (loading) {
@@ -193,7 +218,7 @@ const AllChaptersStudent = () => {
                     <div>
                         <h2>Chapters</h2>
                         {chapters.map((chapter, index) => {
-                            return <CourseChapterComponent key={index} chapter={chapter} videos={videos[index]} chapterClickMethod={handleChapterClick} index={index} videoClickMethod={handleVideoClick} isWatchedArray={isWatched} />
+                            return <CourseChapterComponent key={index} chapter={chapter} videos={videos[chapVideoIndex(chapter.id)]} chapterClickMethod={handleChapterClick} index={index} videoClickMethod={handleVideoClick} isWatchedArray={isWatched} />
                         })}
                     </div>
                 </div>
@@ -210,15 +235,15 @@ const AllChaptersStudent = () => {
                 <div className='course-body-content'>
 
                     <div>
-                        <h2>{videos[chapters[chapterIndex].id][videoIndex].name}</h2>
-                        <ReactPlayer url={videos[chapters[chapterIndex].id][videoIndex].url} onStart={onVideoStart} controls width="1280px" height="720px" />
-                        <h3>{videos[chapters[chapterIndex].id][videoIndex].description}</h3>
+                        <h2>{videos[chapterIndex][videoIndex].name}</h2>
+                        <ReactPlayer url={videos[chapterIndex][videoIndex].url} onStart={onVideoStart} controls width="1280px" height="720px" />
+                        <h3>{videos[chapterIndex][videoIndex].description}</h3>
                     </div>
 
                     <div>
                         <h2>Chapters</h2>
                         {chapters.map((chapter, index) => {
-                            return <CourseChapterComponent key={index} chapter={chapter} videos={videos[chapter.id]} chapterClickMethod={handleChapterClick} index={index} videoClickMethod={handleVideoClick} isWatchedArray={isWatched} />
+                            return <CourseChapterComponent key={index} chapter={chapter} videos={videos[chapVideoIndex(chapter.id)]} chapterClickMethod={handleChapterClick} index={index} videoClickMethod={handleVideoClick} isWatchedArray={isWatched} />
                         })}
                     </div>
 

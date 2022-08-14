@@ -3,11 +3,9 @@ import React, { useCallback, useState } from 'react';
 
 const ChapterVideoComponent = ({ video, index, videoClickMethod, chapterIdx, isWatched }) => {
 
-    console.log(isWatched);
-
     const handleVideoClick = useCallback(() => {
         console.log(chapterIdx);
-        videoClickMethod(index, chapterIdx);
+        videoClickMethod(index, video.id);
     }, [videoClickMethod, video.id]);
 
     return (

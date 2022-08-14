@@ -63,6 +63,7 @@ const LoginPage = () => {
             }
             else {
                 localStorage.setItem('user', JSON.stringify(authData.user));
+                console.log(authData.user);
                 setSpecialUser(authData.user.special_user);
                 setAuthenticated(true);
                 localStorage.setItem('specialUser', authData.user.special_user);
@@ -79,9 +80,13 @@ const LoginPage = () => {
     }, [authenticated]);
 
     useEffect(() => {
+        console.log(specialUser);
         if(specialUser) {
             localStorage.setItem('specialUser', true);
             console.log("Special User At Login");
+        }
+        else {
+            localStorage.setItem('specialUser', false);
         }
     }
     , [specialUser]);
