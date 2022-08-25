@@ -13,7 +13,7 @@ const Blogs = () => {
     }, []);
     return (
         <main>
-            {specialUser && <AddBlog />}    
+            {specialUser==true && <AddBlog />}    
             <SearchForm />
             <AllBlogs />
         </main>

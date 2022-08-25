@@ -14,8 +14,7 @@ const Courses = () => {
     setUseNavbar(true);
     setLoading(true);
     setAuthenticated(localStorage.getItem('authenticated'));
-    console.log(localStorage.getItem('specialUser'));
-    setSpecialUser(localStorage.getItem('specialUser'));
+    setSpecialUser(localStorage.getItem('specialUser')==true);
   }, []);
 
   useEffect(() => {
@@ -29,7 +28,7 @@ const Courses = () => {
     return <Loading />
   }
 
-  if(specialUser){
+  if(specialUser == true){
     return (
       <main>
         <AddCourse />

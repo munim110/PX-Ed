@@ -291,7 +291,8 @@ Blog & Courses
 */
 
 .blog,
-.course {
+.course,
+.enrolled-course {
   background: var(--mainWhite);
   margin-bottom: 2rem;
   box-shadow: var(--lightShadow);
@@ -301,8 +302,13 @@ Blog & Courses
   border-radius: var(--mainBorderRadius);
 }
 
+.enrolled-course {
+  width: 15rem;
+}
+
 .blog:hover,
-.course:hover {
+.course:hover,
+.enrolled-course {
   box-shadow: var(--darkShadow);
 }
 
@@ -314,8 +320,17 @@ Blog & Courses
   border-top-right-radius: var(--mainBorderRadius);
 }
 
+.enrolled-course img {
+  height: 10rem;
+  width: 15rem;
+  object-fit: cover;
+  border-top-left-radius: var(--mainBorderRadius);
+  border-top-right-radius: var(--mainBorderRadius);
+}
+
 .blog-footer,
-.course-footer {
+.course-footer,
+.enrolled-course-footer {
   padding: 1.5rem;
 }
 
@@ -331,6 +346,10 @@ Blog & Courses
 .blog-footer h3,
 .course-footer h3 {
   font-size: 2rem;
+}
+
+.enrolled-course-footer h4 {
+  font-size: 1rem;
 }
 
 .blog-footer p,
@@ -1533,7 +1552,7 @@ Course Area
   grid-template-columns: 90% 10%;
 }
 
-.video-name-container{
+.video-name-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1546,7 +1565,7 @@ Course Area
   border-right: 1px solid #d1d7dc;
 }
 
-.instructor-video-bar{
+.instructor-video-bar {
   display: grid;
   grid-template-columns: 90% 10%;
   font-size: 20px;
@@ -1558,9 +1577,96 @@ Course Area
   margin-left: 5rem;
 }
 
-.instructor-video-bar-inner{
+.instructor-video-bar-inner {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.landing-page {
+  height: 800px;
+}
+
+.landing-page-bg {
+  margin-top: 3rem;
+  background-image: url("BG.jpeg");
+
+  /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.landing-page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  justify-self: center;
+  text-align: center;
+
+  width: 550px;
+  background-color: rgba(119, 119, 119, 0.5);
+  height: 70%;
+  color: azure;
+}
+
+.landing-page-bg h2 {
+  font-size: 10rem;
+  font-weight: 700;
+  letter-spacing: 0.8rem;
+}
+
+.homepage-wrapper {
+  display: grid;
+  grid-template-columns: 15% 70% 15%;
+  background-color: rgba(119, 119, 119, 0.1);
+  height: 100%;
+}
+
+.homepage-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-self: center;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  min-height: 90vh;
+}
+
+.homepage-container h1 {
+  font-size: 5rem;
+  font-weight: 700;
+}
+
+.homepage-enrolled-courses-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  padding-left: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.homepage-enrolled-courses-label {
+  text-align: left;
+  width: 100%;
+}
+
+.enrolled-courses-container {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
 }

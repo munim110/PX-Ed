@@ -11,7 +11,7 @@ const Course = ({ id, name, description, instructor, thumbnail }) => {
 
     return (
         <article className='course'>
-            <Link to={`/courses/${id}`}>
+            <Link to={`/course/${id}`}>
                 <div className='img-container'>
                     <img src={thumbnail} alt={name} />
                 </div>

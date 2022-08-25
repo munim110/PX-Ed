@@ -81,7 +81,7 @@ const LoginPage = () => {
 
     useEffect(() => {
         console.log(specialUser);
-        if(specialUser) {
+        if(specialUser == true) {
             localStorage.setItem('specialUser', true);
             console.log("Special User At Login");
         }
