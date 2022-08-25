@@ -2,9 +2,10 @@ from rest_framework.response import Response
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework import viewsets
+from rest_framework.decorators import action
 
 from user_api.models import SiteUser
-from user_api.serializers import UserSerializer
+from user_api.serializers import *
 
 # Create your views here.
 
@@ -26,3 +27,17 @@ class UserObtainAuthToken(ObtainAuthToken):
         userSerializer = UserSerializer(user)
         return Response({'token': token.key, 'user': userSerializer.data})
     
+class ChangePasswordView(viewsets.ModelViewSet):
+    serializer_class = ChangePasswordSerializer
+    
+    def update(self, request, pk=None):
+        user = SiteUser.objects.get(id=pk)
+        serializer = ChangePasswordSerializer(data=request.data)
+        if serializer.is_valid():
+            logging.warning(serializer.data)
+            if not user.check_password(serializer.data['old_password']):
+                return Response({'result': 'Old password is incorrect'})
+            user.set_password(serializer.data['new_password'])
+            user.save()
+            return Response({'result': 'success'})
+        return Response({'result': 'failure'})

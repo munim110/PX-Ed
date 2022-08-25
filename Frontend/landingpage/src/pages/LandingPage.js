@@ -5,7 +5,7 @@ import logo from '../logo.svg'
 
 const LandingPage = () => {
     const { authenticated } = useGlobalContext();
-    const { useNavbar, setUseNavbar, setAuthenticated, setSpecialUser } = useGlobalContext();
+    const { setUseNavbar, setAuthenticated, setSpecialUser } = useGlobalContext();
 
     useEffect(() => {
         setUseNavbar(true);

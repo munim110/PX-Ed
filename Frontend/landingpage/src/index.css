@@ -656,7 +656,8 @@ Login and Signup Page
   text-decoration: none;
 }
 
-.form-input-field {
+.form-input-field,
+.update-profile-form-field {
   display: block;
   font-size: 15px;
   width: 100%;
@@ -668,6 +669,10 @@ Login and Signup Page
   border: 1px solid rgba(255, 255, 255, .1);
   border-radius: var(--mainBorderRadius);
   border-color: #222;
+}
+
+.update-profile-form-field{
+  width: 90%;
 }
 
 .form-center {
@@ -683,8 +688,8 @@ Profile
 */
 
 .image-cropper {
-  width: 100px;
-  height: 100px;
+  width: 200px;
+  height: 200px;
   position: relative;
   overflow: hidden;
   border-radius: 50%;
@@ -694,7 +699,7 @@ Profile
   display: inline;
   margin: 0 auto;
   height: 100%;
-  width: auto;
+  width: 100%;
 }
 
 /* 
@@ -786,11 +791,16 @@ Add Blog
   box-shadow: 0px 0px 15px 10px rgba(0, 0, 0, 0.15);
 }
 
-.add-blog-error-text {
+.add-blog-error-text,
+.add-success-text {
   font-size: 13px;
   font-weight: 500;
   color: rgb(206, 39, 39);
   text-decoration: none;
+}
+
+.add-success-text{
+  color: rgb(3, 252, 132);
 }
 
 .form-input-field,
@@ -1643,6 +1653,7 @@ Course Area
   height: 100%;
   background-color: #fff;
   min-height: 90vh;
+  padding-bottom: 4rem;
 }
 
 .homepage-container h1 {
@@ -1669,4 +1680,76 @@ Course Area
   display: flex;
   flex-direction: row;
   gap: 1rem;
+}
+
+.profile-page-wrapper {
+  display: grid;
+  grid-template-columns: 20% 60% 20%;
+  background-color: rgba(119, 119, 119, 0.1);
+  height: 100%;
+  padding-bottom: 1rem;
+  min-height: 90vh;
+}
+
+.profile-image-name-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  justify-self: center;
+  text-align: center;
+  background-color: rgba(150, 150, 150, 0.1);
+  width: 100%;
+  height: 30vh;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.profile-image-name-container h2 {
+  margin-bottom: 0;
+}
+
+.profile-navbar {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  width: 100%;
+}
+
+.profile-container-elements {
+  border: 1px solid #d1d7dc;
+  cursor: pointer;
+}
+
+.profile-container-elements h3{
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.edit-profile-section{
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+  justify-content: center;
+  width: 100%;
+  margin-top: 1rem;
+  height: 100%;
+}
+
+.show-info{
+  display: grid;
+  grid-template-columns: 30% 70%;
+  width: 100%;
+  text-align: left;
+  margin-left: 1rem;
+  margin-bottom: 2rem;
+}
+
+.edit-profile-form{
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+  justify-content: center;
+  width: 100%;
+  text-align: left;
+  margin-left: 1rem;
 }
