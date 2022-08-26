@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import Loading from '../../components/Loading';
 import CourseChapterComponent from "../../components/Course/ChapterComponent";
 import { useGlobalContext } from '../../context'
@@ -11,6 +11,7 @@ const CourseURL = 'http://127.0.0.1:8000/api/courses/';
 const currentVideoURL = 'http://127.0.0.1:8000/api/videos/?search='
 const addIsWatchedURL = 'http://127.0.0.1:8000/api/add_is_watched/'
 const isWatchedURL = 'http://127.0.0.1:8000/api/is_watched/?search='
+const examURL = 'http://127.0.0.1:8000/api/exams/?search='
 
 function addIsWatched(data) {
     return fetch(addIsWatchedURL, {
@@ -33,6 +34,7 @@ const AllChaptersStudent = () => {
     const [videoIndex, setVideoIndex] = React.useState(0);
     const [focusOnChapter, setFocusOnChapter] = React.useState(true);
     const [isWatched, setIsWatched] = React.useState({});
+    const [exams, setExams] = React.useState([]);
 
     // Load page
     useEffect(() => {
@@ -84,15 +86,15 @@ const AllChaptersStudent = () => {
     useEffect(() => {
         // Fetch video names under chapters
         console.log(chapters);
-        setLoading(true);
         chapters.forEach(async (chapter) => {
             const fetchVideos = async () => {
+                setLoading(true);
                 try {
                     const response = await fetch(`${currentVideoURL}${chapter.id}`);
                     const hasWatchedResponse = await fetch(`${isWatchedURL}${getUserID()}`);
                     const data = await response.json();
                     const hasWatchedData = await hasWatchedResponse.json();
-                    console.log(hasWatchedData);
+                    console.log(data);
                     if (data.length > 0) {
                         const videoChap = data.map(v => {
                             return {
@@ -128,11 +130,42 @@ const AllChaptersStudent = () => {
 
     useEffect(() => {
         console.log(videos);
+        
+        chapters.forEach(async (chapter) => {
+            console.log(chapter);
+            const fetchExams = async () => {
+                setLoading(true);
+                try {
+                    const response = await fetch(`${examURL}${chapter.id}`);
+                    const data = await response.json();
+                    console.log(data);
+                    if (data.length > 0) {
+                        const examChap = data.map(v => {
+                            return {
+                                id: v.id,
+                                name: v.exam_name,
+                                chapter: chapter.id,
+                            };
+                        });
+                        setExams(oldExams => [...oldExams, examChap]);
+                    }
+                } catch (err) {
+                    console.log(err)
+                } finally {
+                    setLoading(false);
+                }
+            }
+            fetchExams();
+        })
     }, [videos]);
 
     useEffect(() => {
         console.log(isWatched);
     } , [isWatched]);
+
+    useEffect(() => {
+        console.log(exams);
+    }, [exams]);
 
     // Functions
     const handleChapterClick = (index) => {
@@ -187,6 +220,36 @@ const AllChaptersStudent = () => {
         return retVal;
     }
 
+    const getChapterVideos = (id) => {
+        let retVal = [];
+        videos.forEach((chap, index) => {
+            if (parseInt(chap[0].chapter) == parseInt(id)) {
+                retVal = chap;
+            }
+        } )
+        return retVal;
+    }
+
+    const chapterHasExams = (id) => {
+        let retVal = false;
+        exams.map((ex, index) => {
+            if (parseInt(ex[0].chapter) == parseInt(id)) {
+                retVal = true;
+            }
+        })
+        return retVal;
+    }
+
+    const getChapterExam = (id) => {
+        let retVal = -1;
+        exams.map((ex, index) => {
+            if (parseInt(ex[0].chapter) == parseInt(id)) {
+                retVal = ex[0].id;
+            }
+        } )
+        return retVal;
+    }
+
     if (loading) {
         return <Loading />
     }
@@ -213,6 +276,17 @@ const AllChaptersStudent = () => {
                     <div className='course-description'>
                         <h2>Chapter Description</h2>
                         {chapters[chapterIndex].description}
+                    </div>
+
+                    <div className='course-description'>
+
+                        {chapterHasExams(chapters[chapterIndex].id) ? 
+                        <div>
+                            <h2>Exam</h2>
+                            <Link to={`/takeexam/${getChapterExam(chapters[chapterIndex].id)}`} className="enroll-button">Take Exam</Link>
+                        </div> 
+                        : null}
+
                     </div>
 
                     <div>

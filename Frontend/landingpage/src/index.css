@@ -671,7 +671,7 @@ Login and Signup Page
   border-color: #222;
 }
 
-.update-profile-form-field{
+.update-profile-form-field {
   width: 90%;
 }
 
@@ -799,7 +799,7 @@ Add Blog
   text-decoration: none;
 }
 
-.add-success-text{
+.add-success-text {
   color: rgb(3, 252, 132);
 }
 
@@ -1239,6 +1239,7 @@ Course Area
   margin-left: 4.8rem;
   margin-right: 4.8rem;
   padding-top: 3.2rem;
+  min-width: 90%;
 }
 
 @media (min-width: 73.75em) {
@@ -1720,12 +1721,12 @@ Course Area
   cursor: pointer;
 }
 
-.profile-container-elements h3{
+.profile-container-elements h3 {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 }
 
-.edit-profile-section{
+.edit-profile-section {
   display: flex;
   flex-direction: column;
   align-content: flex-start;
@@ -1735,7 +1736,7 @@ Course Area
   height: 100%;
 }
 
-.show-info{
+.show-info {
   display: grid;
   grid-template-columns: 30% 70%;
   width: 100%;
@@ -1744,7 +1745,7 @@ Course Area
   margin-bottom: 2rem;
 }
 
-.edit-profile-form{
+.edit-profile-form {
   display: flex;
   flex-direction: column;
   align-content: flex-start;
@@ -1754,7 +1755,7 @@ Course Area
   margin-left: 1rem;
 }
 
-.add-question-wrapper{
+.add-question-wrapper {
   display: flex;
   flex-direction: column;
   align-content: center;
@@ -1765,16 +1766,16 @@ Course Area
   padding-bottom: 2rem;
 }
 
-.header-text{
+.header-text {
   text-align: center;
 }
 
-.add-question-section{
+.add-question-section {
   display: grid;
   grid-template-rows: 5vh auto auto auto 5vh;
 }
 
-.add-question-buttons{
+.add-question-buttons {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -1782,7 +1783,7 @@ Course Area
   align-content: center;
 }
 
-.add-question-question-section{
+.add-question-question-section {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1793,7 +1794,7 @@ Course Area
   margin-top: 1rem;
 }
 
-.question{
+.question {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1804,11 +1805,94 @@ Course Area
   margin-left: 1rem;
 }
 
-.add-question-button-wrapper{
+.add-question-button-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-content: center;
   text-align: center;
   width: 100%;
+}
+
+.exam-page-wrapper {
+  display: grid;
+  grid-template-rows: auto auto auto auto 10%;
+  grid-template-columns: 15% 70% 15%;
+  min-height: 90vh;
+  padding-bottom: 2rem;
+}
+
+.exam-info-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  text-align: left;
+  width: 100%;
+  margin-top: 1rem;
+  margin-left: 1rem;
+  align-items: center;
+}
+
+.exam-section-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  text-align: left;
+  width: 100%;
+  margin-top: 1rem;
+  margin-left: 1rem;
+}
+
+.exam-submit-button-wrapper{
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  text-align: center;
+  width: 100%;
+  margin-top: 1rem;
+  margin-left: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.exam-mcq-wrapper {
+  margin-top: 2rem;
+  height: 100%;
+}
+
+.exam-tf-wrapper{
+  margin-top: 2rem;
+}
+
+.exam-mcq-answer-wrapper {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 50% 50%;
+  width: 100%;
+  row-gap: 20px;
+  column-gap: 20px;
+}
+
+.exam-tf-answer-wrapper{
+  display: grid;
+  grid-template-columns: 50% 50%;
+  width: 100%;
+  row-gap: 20px;
+  column-gap: 20px;
+}
+
+.exam-mcq-answer {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  text-align: center;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.exam-mcq-answer label{
+  font-size: 1.1rem;
+  font-weight: 700;
 }

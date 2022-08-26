@@ -32,6 +32,7 @@ import AllExamsInstructor from './pages/Courses/AllExamsInstructor'
 import EditExam from './pages/Courses/EditExam'
 import AllExamsToAddQuestion from './pages/Courses/AllExamsToAddQuestion'
 import AddQuestionToExam from './pages/Courses/AddQuestionToExam'
+import TakeExam from './pages/Courses/EnrolledExam'
 
 // Blogs
 import SingleBlog from './pages/Blogs/SingleBlogPage'
@@ -101,6 +102,7 @@ function App() {
         <Route path='/editexam/:ExamID' element={<EditExam />} />
         <Route path='/addquestiontoexam/:courseID/:ExamID' element={<AddQuestionToExam />} />
         <Route path='/allexamstoaddquestion/:courseID' element={<AllExamsToAddQuestion />} />
+        <Route path='/takeexam/:ExamID' element={<TakeExam />} />
 
         // Error
         <Route path="*" element={<Error />} />
