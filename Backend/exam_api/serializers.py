@@ -95,7 +95,7 @@ class ExamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exam
         fields = '__all__'
-        extra_kwargs = {'exam_name': {'required': False}, 'exam_date': {'required': False}, 'exam_time': {'required': False}, 'exam_duration': {'required': False}, 'exam_type': {'required': False}, 'course': {'required': False}, 'chapter': {'required': False}}
+        extra_kwargs = {'exam_name': {'required': False}, 'exam_course': {'required': False}, 'exam_duration': {'required': False}, 'exam_chapter': {'required': False}}
         depth = 1
 
     def create(self, validated_data):

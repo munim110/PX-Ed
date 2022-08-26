@@ -74,7 +74,7 @@ const SingleCourse = () => {
     useEffect(() => {
         setUseNavbar(true);
         setAuthenticated(localStorage.getItem('authenticated'));
-        setSpecialUser(localStorage.getItem('specialUser'));
+        setSpecialUser(localStorage.getItem('specialUser')==='true');
     }, []);
 
     useEffect(() => {
@@ -297,6 +297,8 @@ const SingleCourse = () => {
                                 {instructor && <Link to={`/chaptersinstructor/${id}`} className="enroll-button">Edit Chapter</Link>}
                                 {instructor && <Link to={`/addchapter/${id}`} className="enroll-button">Add Chapters</Link>}
                                 {instructor && <Link to={`/addvideotocourse/${id}`} className="enroll-button">Add Video</Link>}
+                                {instructor && <Link to={`/addexamtocourse/${id}`} className="enroll-button">Add Exam</Link>}
+                                {instructor && <Link to={`/instructorexams/${id}`} className="enroll-button">Edit Exam</Link>}
                             </span>
                         </div>
                     </div>

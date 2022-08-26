@@ -9,8 +9,16 @@ const Blogs = () => {
     useEffect(() => {
         setUseNavbar(true);
         setAuthenticated(localStorage.getItem('authenticated'));
-        setSpecialUser(localStorage.getItem('specialUser'));
+        setSpecialUser(localStorage.getItem('specialUser')==='true');
     }, []);
+
+    useEffect(() => {
+        console.log(specialUser)
+        if(specialUser == true)
+        {
+            console.log("Special User")
+        }
+    }, [specialUser])
     return (
         <main>
             {specialUser==true && <AddBlog />}    

@@ -10,7 +10,7 @@ const LandingPage = () => {
     useEffect(() => {
         setUseNavbar(true);
         setAuthenticated(localStorage.getItem('authenticated'));
-        setSpecialUser(localStorage.getItem('specialUser'));
+        setSpecialUser(localStorage.getItem('specialUser')==='true');
     }, []);
 
     return (

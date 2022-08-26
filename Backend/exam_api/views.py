@@ -36,13 +36,19 @@ def addUploadQuestionViewSet(request):
         return Response({'result': 'success'})
     return Response({'result': 'failure'})
 
+class ExamViewset(viewsets.ModelViewSet):
+    queryset = Exam.objects.all()
+    serializer_class = ExamSerializer
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ['exam_chapter__id']
 
-def addExamViewSet(request):
-    serializer = ExamSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response({'result': 'success'})
-    return Response({'result': 'failure'})
-
-
-
+class AddExamViewset(viewsets.ModelViewSet):
+    queryset = Exam.objects.all()
+    serializer_class = ExamSerializer
+    
+    def post(self, request):
+        serializer = ExamSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'result': 'success'})
+        return Response({'result': 'failure'})

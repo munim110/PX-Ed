@@ -36,7 +36,7 @@ const EditChapter = () => {
     useEffect(() => {
         setUseNavbar(true);
         setAuthenticated(localStorage.getItem('authenticated'));
-        setSpecialUser(localStorage.getItem('specialUser'));
+        setSpecialUser(localStorage.getItem('specialUser')==='true');
     }, []);
 
     // Load course
@@ -90,7 +90,7 @@ const EditChapter = () => {
     let navigate = useNavigate();
     useEffect(() => {
         if (success) {
-            navigate('/course/' + courseID);
+            navigate('/chaptersinstructor/' + courseID);
         }
     } , [success]);
 

@@ -35,7 +35,7 @@ const LoginPage = () => {
     useEffect(() => {
         setUseNavbar(false);
         setAuthenticated(localStorage.getItem('authenticated'));
-        setSpecialUser(localStorage.getItem('specialUser'));
+        setSpecialUser(localStorage.getItem('specialUser')==='true');
     }, []);
 
     const handleSubmit = async (e) => {

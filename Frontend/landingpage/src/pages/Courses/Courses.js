@@ -14,7 +14,7 @@ const Courses = () => {
     setUseNavbar(true);
     setLoading(true);
     setAuthenticated(localStorage.getItem('authenticated'));
-    setSpecialUser(localStorage.getItem('specialUser')==true);
+    setSpecialUser(localStorage.getItem('specialUser')==='true');
   }, []);
 
   useEffect(() => {

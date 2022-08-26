@@ -24,7 +24,7 @@ const AllChaptersInstrunctor = () => {
     useEffect(() => {
         setUseNavbar(true);
         setAuthenticated(localStorage.getItem('authenticated'));
-        setSpecialUser(localStorage.getItem('specialUser'));
+        setSpecialUser(localStorage.getItem('specialUser')==='true');
     }, []);
 
     // Load course
@@ -84,7 +84,6 @@ const AllChaptersInstrunctor = () => {
         // Fetch video names under chapters
         setLoading(true);
         chapters.forEach(async (chapter) => {
-            console.log(`${currentVideoURL}${chapter.id}`);
             const fetchVideos = async () => {
                 try {
                     const response = await fetch(`${currentVideoURL}${chapter.id}`);
@@ -123,7 +122,6 @@ const AllChaptersInstrunctor = () => {
     // Functions
     const editChapter = id => e => {
         e.preventDefault();
-        console.log(id);
         navigate(`/addvideo/${courseID}/${id}`);
     }
 
@@ -158,7 +156,7 @@ const AllChaptersInstrunctor = () => {
     }
 
     if (!isInstructor) {
-        navigate(`/courses/${courseID}`);
+        navigate(`/course/${courseID}`);
     }
 
     return (

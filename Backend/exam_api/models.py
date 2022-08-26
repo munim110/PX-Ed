@@ -43,12 +43,12 @@ class UploadQuestion(models.Model):
         return self.question
 
 class Exam(models.Model):
-    name = models.CharField(max_length=200)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE)
-    duration = models.IntegerField(default=25)
+    exam_name = models.CharField(max_length=200)
+    exam_course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    exam_chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE)
+    exam_duration = models.IntegerField(default=25)
     total_marks = models.IntegerField(default=0)
-    total_questions = models.IntegerField()
+    total_questions = models.IntegerField(default=0)
     questions = models.ManyToManyField(MCQ, blank=True)
     truefalse = models.ManyToManyField(TrueFalse, blank=True)
     shortquestions = models.ManyToManyField(ShortQuestion, blank=True)

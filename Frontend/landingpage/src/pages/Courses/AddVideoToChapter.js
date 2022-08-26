@@ -48,7 +48,7 @@ const AddVideo = () => {
     useEffect(() => {
         setUseNavbar(true);
         setAuthenticated(localStorage.getItem('authenticated'));
-        setSpecialUser(localStorage.getItem('specialUser'));
+        setSpecialUser(localStorage.getItem('specialUser')==='true');
     }, []);
 
     // Load course
@@ -107,7 +107,6 @@ const AddVideo = () => {
                 setNotAVideo(true);
             }
             else {
-                console.log(description, video);
                 const data = await addVideoDetails({ 'description' : description, 'chapter' : chapterID, 'name' : name });
                 console.log(data);
 
@@ -153,7 +152,7 @@ const AddVideo = () => {
                             <div className='blog-input-wrapper'>
                                 <label className='blog-input-label'>Name</label>
                                 <input className='form-input-field' type='text' value={name} onChange={(e) => setName(e.target.value)} />
-                                {nameError && <p className='blog-input-error'>Please enter a name</p>}
+                                {nameError && <span className='add-blog-error-text'>Please enter a name</span>}
                             </div>
 
                             <div className='content-input-wrapper'>

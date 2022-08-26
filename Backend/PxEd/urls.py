@@ -11,4 +11,5 @@ urlpatterns = [
     re_path('auth/', UserObtainAuthToken.as_view()),
     re_path(r'^api/', include('user_api.urls')),
     re_path(r'^api/', include('course_api.urls')),
+    re_path(r'^api/', include('exam_api.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
