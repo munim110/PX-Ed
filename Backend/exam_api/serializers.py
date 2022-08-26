@@ -71,24 +71,7 @@ class ShortQuestionSerializer(serializers.ModelSerializer):
         return shortquestion
 
 
-class UploadQuestionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UploadQuestion
-        fields = '__all__'
-        extra_kwargs = {'question': {'required': False}, 'marks': {'required': False}, 'course': {'required': False}, 'chapter': {'required': False}}
-        depth = 1
 
-    def create(self, validated_data):
-        uploadquestion = UploadQuestion(
-            question=self.context['request'].data['question'],
-            marks=self.context['request'].data['marks'],
-        )
-        uploadquestion.save()
-        exam = Exam.objects.get(id=int(self.context['request'].data['exam']))
-        exam.uploadquestion.add(uploadquestion)
-        exam.set_all()
-        exam.save()
-        return uploadquestion
 
 
 class ExamSerializer(serializers.ModelSerializer):
@@ -125,6 +108,7 @@ class ExamAttemptSerializer(serializers.ModelSerializer):
             truefalse_answers = self.context['request'].data['truefalse_answers'],
             shortquestion_answers = self.context['request'].data['shortquestion_answers'],
         )
+        examattempt.set_all()
         examattempt.save()
         return examattempt
 
