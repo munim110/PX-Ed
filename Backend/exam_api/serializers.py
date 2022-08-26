@@ -65,7 +65,7 @@ class ShortQuestionSerializer(serializers.ModelSerializer):
         )
         shortquestion.save()
         exam = Exam.objects.get(id=int(self.context['request'].data['exam']))
-        exam.shortquestion.add(shortquestion)
+        exam.shortquestions.add(shortquestion)
         exam.set_all()
         exam.save()
         return shortquestion

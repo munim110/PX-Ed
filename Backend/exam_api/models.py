@@ -85,7 +85,7 @@ class Exam(models.Model):
         self.set_total_questions()
 
     def __str__(self):
-        return self.name
+        return self.exam_name
 
 
 class ExamAttempt(models.Model):

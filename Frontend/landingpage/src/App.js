@@ -24,10 +24,14 @@ import AllChaptersStudent from './pages/Courses/AllChaptersEnrolled'
 import EditCourse from './pages/Courses/EditCourse'
 import EditChapter from './pages/Courses/EditChapter'
 import AllChaptersInstructor from './pages/Courses/AllChaptersInstructor'
+
+// Exam
 import AllChaptersToAddExam from './pages/Courses/AllChaptersToAddExam'
 import AddExamToChapter from './pages/Courses/AddExamToChapter'
 import AllExamsInstructor from './pages/Courses/AllExamsInstructor'
 import EditExam from './pages/Courses/EditExam'
+import AllExamsToAddQuestion from './pages/Courses/AllExamsToAddQuestion'
+import AddQuestionToExam from './pages/Courses/AddQuestionToExam'
 
 // Blogs
 import SingleBlog from './pages/Blogs/SingleBlogPage'
@@ -89,10 +93,14 @@ function App() {
         <Route path='/editcourse/:courseID' element={<EditCourse />} />
         <Route path='/editchapter/:chapterID' element={<EditChapter />} />
         <Route path='/chaptersinstructor/:courseID' element={<AllChaptersInstructor />} />
+
+        // Exam
         <Route path='/addexamtocourse/:courseID' element={<AllChaptersToAddExam />} />
         <Route path='/addexam/:courseID/:chapterID' element={<AddExamToChapter />} />
         <Route path='/instructorexams/:courseID' element={<AllExamsInstructor />} />
         <Route path='/editexam/:ExamID' element={<EditExam />} />
+        <Route path='/addquestiontoexam/:courseID/:ExamID' element={<AddQuestionToExam />} />
+        <Route path='/allexamstoaddquestion/:courseID' element={<AllExamsToAddQuestion />} />
 
         // Error
         <Route path="*" element={<Error />} />

@@ -1753,3 +1753,62 @@ Course Area
   text-align: left;
   margin-left: 1rem;
 }
+
+.add-question-wrapper{
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  width: 100%;
+  margin-left: 1rem;
+  margin-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.header-text{
+  text-align: center;
+}
+
+.add-question-section{
+  display: grid;
+  grid-template-rows: 5vh auto auto auto 5vh;
+}
+
+.add-question-buttons{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.add-question-question-section{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  text-align: left;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.question{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  text-align: left;
+  width: 100%;
+  margin-top: 1rem;
+  margin-left: 1rem;
+}
+
+.add-question-button-wrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  width: 100%;
+}

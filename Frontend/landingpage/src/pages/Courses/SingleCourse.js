@@ -299,6 +299,7 @@ const SingleCourse = () => {
                                 {instructor && <Link to={`/addvideotocourse/${id}`} className="enroll-button">Add Video</Link>}
                                 {instructor && <Link to={`/addexamtocourse/${id}`} className="enroll-button">Add Exam</Link>}
                                 {instructor && <Link to={`/instructorexams/${id}`} className="enroll-button">Edit Exam</Link>}
+                                {instructor && <Link to={`/allexamstoaddquestion/${id}`} className="enroll-button">Add Questions</Link>}
                             </span>
                         </div>
                     </div>

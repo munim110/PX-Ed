@@ -5,36 +5,52 @@ from exam_api.serializers import *
 
 # Create your views here.
 
-def addMCQViewSet(request):
-    serializer = MCQSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response({'result': 'success'})
-    return Response({'result': 'failure'})
+
+class MCQViewSet(viewsets.ModelViewSet):
+    queryset = MCQ.objects.all()
+    serializer_class = MCQSerializer
 
 
-def addTrueFalseViewSet(request):
-    serializer = TrueFalseSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response({'result': 'success'})
-    return Response({'result': 'failure'})
+class AddMCQViewSet(viewsets.ModelViewSet):
+    queryset = MCQ.objects.all()
+    serializer_class = MCQSerializer
 
+    def post(self, request):
+        serializer = MCQSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'result': 'success'})
+        return Response({'result': 'failure'})
 
-def addShortQuestionViewSet(request):
-    serializer = ShortQuestionSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response({'result': 'success'})
-    return Response({'result': 'failure'})
+class TrueFalseViewSet(viewsets.ModelViewSet):
+    queryset = TrueFalse.objects.all()
+    serializer_class = TrueFalseSerializer
+    
+class AddTrueFalseViewSet(viewsets.ModelViewSet):
+    queryset = TrueFalse.objects.all()
+    serializer_class = TrueFalseSerializer
 
+    def post(self, request):
+        serializer = TrueFalseSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'result': 'success'})
+        return Response({'result': 'failure'})
+    
+class ShortQuestionViewSet(viewsets.ModelViewSet):
+    queryset = ShortQuestion.objects.all()
+    serializer_class = ShortQuestionSerializer
+    
+class AddShortQuestionViewSet(viewsets.ModelViewSet):
+    queryset = ShortQuestion.objects.all()
+    serializer_class = ShortQuestionSerializer
 
-def addUploadQuestionViewSet(request):
-    serializer = UploadQuestionSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response({'result': 'success'})
-    return Response({'result': 'failure'})
+    def post(self, request):
+        serializer = ShortQuestionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'result': 'success'})
+        return Response({'result': 'failure'})
 
 class ExamViewset(viewsets.ModelViewSet):
     queryset = Exam.objects.all()
@@ -42,10 +58,11 @@ class ExamViewset(viewsets.ModelViewSet):
     filter_backends = (filters.SearchFilter,)
     search_fields = ['exam_chapter__id']
 
+
 class AddExamViewset(viewsets.ModelViewSet):
     queryset = Exam.objects.all()
     serializer_class = ExamSerializer
-    
+
     def post(self, request):
         serializer = ExamSerializer(data=request.data)
         if serializer.is_valid():
