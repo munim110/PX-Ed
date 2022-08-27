@@ -174,7 +174,7 @@ const TakeExam = () => {
                     console.log(data);
                     if (data.length > 0) {
                         data.map(course => {
-                            if (course.id === courseID) {
+                            if (course.course.id === courseID) {
                                 setIsEnrolled(true);
                             }
                         })
