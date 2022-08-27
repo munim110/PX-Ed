@@ -2,11 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { useGlobalContext } from '../context'
 import Loading from '../components/Loading';
 import { getUserID } from '../Utils';
+import { useNavigate } from 'react-router-dom';
 import EnrolledCourse from '../components/Homepage/EnrolledCoursesComponent';
 
 const userApi = 'http://127.0.0.1:8000/api/users/';
 const changePasswordURL = 'http://127.0.0.1:8000/api/change-password/';
 const enrolledCoursesLink = 'http://127.0.0.1:8000/api/enrolledcourses/?search='
+const examURL = 'http://127.0.0.1:8000/api/exams/?search='
+const chapterURL = 'http://127.0.0.1:8000/api/chapters/?search='
+const examAttemptsURL = 'http://127.0.0.1:8000/api/exam-attempt/?search='
 
 function uploadProfilePicture(id, data) {
     return fetch(`${userApi}${id}/`, {
@@ -22,6 +26,11 @@ const Profile = () => {
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState({});
     const [enrolledCourses, setEnrolledCourses] = useState([]);
+    const [examList, setExamList] = useState([]);
+    const [chapterList, setChapterList] = useState([]);
+    const [examAttempts, setExamAttempts] = useState([]);
+
+    const [chapLoaded, setChapLoaded] = useState(false);
 
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
@@ -57,15 +66,78 @@ const Profile = () => {
 
         setUseNavbar(true);
         setAuthenticated(localStorage.getItem('authenticated'));
-        setSpecialUser(localStorage.getItem('specialUser')==='true');
+        setSpecialUser(localStorage.getItem('specialUser') === 'true');
         getUser();
         getEnrolledCoursesOfUser();
     }, []);
 
     useEffect(() => {
-        setLoading(false);
         console.log(enrolledCourses);
+        // Get Chapter List
+        const fetchChapterList = async () => {
+            enrolledCourses.map(async (course) => {
+                const fetchChapter = async () => {
+                    const response = await fetch(chapterURL + course.course.id);
+                    const data = await response.json();
+                    if (data.length > 0) {
+                        data.map(chap => {
+                            setChapterList(oldChapList => [...oldChapList, chap.id]);
+                        })
+                    }
+                }
+                fetchChapter();
+            })
+        }
+        fetchChapterList();
+        setChapLoaded(true);
     }, [enrolledCourses]);
+
+    useEffect(() => {
+        if (chapLoaded) {
+            setLoading(false);
+            console.log(chapterList);
+        }
+    }, [chapLoaded]);
+
+    useEffect(() => {
+        if(chapterList.length>0){
+            console.log(chapterList[chapterList.length-1]);
+            const fetchExam = async () => {
+                setLoading(true);
+                const response = await fetch(examURL + chapterList[chapterList.length-1]);
+                const data = await response.json();
+                if(data.length>0){
+                    console.log(data);
+                    setExamList(oldExamList => [...oldExamList, data[0].id]);
+                }
+                setLoading(false);
+            }
+            fetchExam();
+        }
+    } , [chapterList]);
+
+    useEffect(() => {
+        if(examList.length > 0)
+        {
+            console.log(examList[examList.length-1]);
+            //Check if user has attempted exam
+            const fetchExamAttempts = async () => {
+                setLoading(true);
+                const response = await fetch(examAttemptsURL + examList[examList.length-1]);
+                const data = await response.json();
+                if(data.length>0){
+                    data.map(attempt => {
+                        if(attempt.user.id === getUserID()){
+                            console.log(data);
+                            setExamAttempts(oldExamAttempts => [...oldExamAttempts, attempt]);
+                        }
+                    })
+                }
+                setLoading(false);
+            }
+            fetchExamAttempts();
+        }
+    } , [examList]);
 
     useEffect(() => {
         if (updatePasswordSuccess) {
@@ -154,6 +226,23 @@ const Profile = () => {
             console.log(uploadData);
             setUpdateProfilePictureSuccess(true);
         }
+    }
+
+    const courseExamAttempts = (id) => {
+        let retVal = [];
+        examAttempts.map(attempt => {
+            console.log(id);
+            if(attempt.exam.exam_course === id){
+                retVal.push(attempt);
+            }
+        })
+        return retVal;
+    }
+
+    const navigate = useNavigate();
+    const showExamResult = (id) =>{
+        console.log(id);
+        navigate(`/examresult/${id}`);
     }
 
     if (loading) {
@@ -265,7 +354,28 @@ const Profile = () => {
 
                     {enrolledCourses.length > 0 ? <div className='homepage-enrolled-courses-container'>
                         <div className='enrolled-courses-container'>
-                            {enrolledCourses.map(course => <EnrolledCourse key={course.id} id={course.course.id} name={course.course.name} thumbnail={course.course.thumbnail} />)}</div>
+                            {enrolledCourses.map(course => {
+                                return (
+                                    <div className='profile-course-view' key={course.id}>
+                                        <div><EnrolledCourse key={course.id} id={course.course.id} name={course.course.name} thumbnail={course.course.thumbnail} /></div>
+                                        <div>
+                                            {courseExamAttempts(course.course.id).length > 0 ? 
+                                                <>
+                                                    <h2>Exam Attempts</h2>
+                                                    {courseExamAttempts(course.course.id).map(examAttempt => {
+                                                        console.log(examAttempt)
+                                                        return (
+                                                            <div key={examAttempt.id} onClick={() => {showExamResult(examAttempt.id)}} style={{'cursor' : 'pointer'}}>
+                                                                <h3>{examAttempt.exam.exam_name} ({examAttempt.total_marks} / {examAttempt.exam.total_marks})</h3>
+                                                            </div>
+                                                        )
+                                                    })}
+                                                </> : <h2>No Exam Attempts</h2>}
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                        </div>
                     </div>
                         : <div className='enrolled-courses-container'>
                             <h2>You have not enrolled in any courses</h2>

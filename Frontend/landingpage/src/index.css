@@ -1679,7 +1679,7 @@ Course Area
 
 .enrolled-courses-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 1rem;
 }
 
@@ -1919,4 +1919,30 @@ Course Area
 
 .wrong-text{
   color: rgb(206, 39, 39);
+}
+
+.profile-course-container{
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 1rem;
+  align-items: center;
+}
+
+.profile-course-view{
+  display: grid;
+  grid-template-columns: 30% 70%;
+}
+
+.profile-course-marks-container{
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 1rem;
+  align-items: center;
+  text-align: center;
 }
