@@ -170,13 +170,10 @@ const TakeExam = () => {
                 if (getUserID() !== '') {
                     console.log(getUserID());
                     const response = await fetch(`${courseURL}${getUserID()}`);
-                    console.log(`${courseURL}${getUserID()}`);
                     const data = await response.json();
                     console.log(data);
                     if (data.length > 0) {
                         data.map(course => {
-                            console.log(course.course.id);
-                            console.log(courseID);
                             if (course.course.id === courseID) {
                                 setIsEnrolled(true);
                             }
