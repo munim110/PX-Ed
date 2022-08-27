@@ -12,6 +12,7 @@ const currentVideoURL = 'http://127.0.0.1:8000/api/videos/?search='
 const addIsWatchedURL = 'http://127.0.0.1:8000/api/add_is_watched/'
 const isWatchedURL = 'http://127.0.0.1:8000/api/is_watched/?search='
 const examURL = 'http://127.0.0.1:8000/api/exams/?search='
+const examAttemptURL = 'http://127.0.0.1:8000/api/exam-attempt/?search='
 
 function addIsWatched(data) {
     return fetch(addIsWatchedURL, {
@@ -35,12 +36,13 @@ const AllChaptersStudent = () => {
     const [focusOnChapter, setFocusOnChapter] = React.useState(true);
     const [isWatched, setIsWatched] = React.useState({});
     const [exams, setExams] = React.useState([]);
+    const [examAttempt, setExamAttempt] = React.useState([]);
 
     // Load page
     useEffect(() => {
         setUseNavbar(true);
         setAuthenticated(localStorage.getItem('authenticated'));
-        setSpecialUser(localStorage.getItem('specialUser')==='true');
+        setSpecialUser(localStorage.getItem('specialUser') === 'true');
     }, []);
 
     // Fetch course info
@@ -108,7 +110,7 @@ const AllChaptersStudent = () => {
                         setVideos(oldVids => [...oldVids, videoChap]);
                     }
 
-                    if(hasWatchedData.length > 0) {
+                    if (hasWatchedData.length > 0) {
                         const isWatched = hasWatchedData.map(v => {
                             return {
                                 video_id: v.video.id,
@@ -130,7 +132,7 @@ const AllChaptersStudent = () => {
 
     useEffect(() => {
         console.log(videos);
-        
+
         chapters.forEach(async (chapter) => {
             console.log(chapter);
             const fetchExams = async () => {
@@ -161,11 +163,44 @@ const AllChaptersStudent = () => {
 
     useEffect(() => {
         console.log(isWatched);
-    } , [isWatched]);
+    }, [isWatched]);
 
     useEffect(() => {
         console.log(exams);
+        // Fetch exam attempt info
+        if (exams.length > 0) {
+            let exam = exams[exams.length - 1];
+            console.log(exam);
+            const fetchExamAttempt = async () => {
+                setLoading(true);
+                try {
+                    console.log(exam[0].id);
+                    const response = await fetch(`${examAttemptURL}${exam[0].id}`);
+                    const data = await response.json();
+                    if (data.length > 0) {
+                        data.map(attempt => {
+                            if (attempt.user.id === getUserID()) {
+                                console.log(data);
+                                setExamAttempt(oldExamAttempts => [...oldExamAttempts, attempt]);
+                            }
+                        })
+                    }
+                } catch (err) {
+                    console.log(err)
+                }
+                finally {
+                    setLoading(false);
+                }
+            }
+            fetchExamAttempt();
+        }
     }, [exams]);
+
+    useEffect(() => {
+        if (examAttempt.length > 0) {
+            console.log(examAttempt);
+        }
+    }, [examAttempt]);
 
     // Functions
     const handleChapterClick = (index) => {
@@ -205,7 +240,7 @@ const AllChaptersStudent = () => {
     const onVideoStart = () => {
         console.log('Started Video');
         // Add video to watched
-        const data = { video: videos[chapterIndex][videoIndex].id, user: getUserID(), is_watched : true };
+        const data = { video: videos[chapterIndex][videoIndex].id, user: getUserID(), is_watched: true };
         const response = addIsWatched(data);
         console.log(response);
     }
@@ -226,7 +261,7 @@ const AllChaptersStudent = () => {
             if (parseInt(chap[0].chapter) == parseInt(id)) {
                 retVal = chap;
             }
-        } )
+        })
         return retVal;
     }
 
@@ -240,13 +275,35 @@ const AllChaptersStudent = () => {
         return retVal;
     }
 
+    const examAlreadyAttempted = (id) => {
+        let retVal = false;
+        examAttempt.map((ex) => {
+            console.log(ex);
+            if (parseInt(ex.exam.id) == parseInt(id)) {
+                retVal = true;
+            }
+        }
+        )
+        return retVal;
+    }
+
+    const getExamAttempt = (id) => {
+        let retVal = -1;
+        examAttempt.map((ex) => {
+            if (parseInt(ex.exam.id) == parseInt(id)) {
+                retVal = ex.id;
+            }
+        })
+        return retVal;
+    }
+
     const getChapterExam = (id) => {
         let retVal = -1;
         exams.map((ex, index) => {
             if (parseInt(ex[0].chapter) == parseInt(id)) {
                 retVal = ex[0].id;
             }
-        } )
+        })
         return retVal;
     }
 
@@ -280,12 +337,15 @@ const AllChaptersStudent = () => {
 
                     <div className='course-description'>
 
-                        {chapterHasExams(chapters[chapterIndex].id) ? 
-                        <div>
-                            <h2>Exam</h2>
-                            <Link to={`/takeexam/${getChapterExam(chapters[chapterIndex].id)}`} className="enroll-button">Take Exam</Link>
-                        </div> 
-                        : null}
+                        {chapterHasExams(chapters[chapterIndex].id) ?
+                            <div>
+                                <h2>Exam</h2>
+                                {examAlreadyAttempted(getChapterExam(chapters[chapterIndex].id)) ? 
+                                <Link to={`/examresult/${getExamAttempt(getChapterExam(chapters[chapterIndex].id))}`} className="enroll-button">See Result</Link>
+                                : 
+                                <Link to={`/takeexam/${getChapterExam(chapters[chapterIndex].id)}`} className="enroll-button">Take Exam</Link>}
+                            </div>
+                            : null}
 
                     </div>
 
