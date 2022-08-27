@@ -68,20 +68,27 @@ const Home = () => {
       <div className='homepage-container'>
         <h1>Welcome, {user.username}</h1>
 
-        {enrolledCourses.length > 0 && <div className='homepage-enrolled-courses-container'>
-          <div className='homepage-enrolled-courses-label'>
-            <h2>Your Enrolled Courses</h2>
+
+        <div className='homepage-enrolled-courses-label'>
+          <h2>Your Enrolled Courses</h2>
+        </div>
+        {enrolledCourses.length > 0 ? 
+        <div className='homepage-enrolled-courses-container'>
+          <div className='homepage-enrolled-courses'>
+            {enrolledCourses.map(course => <EnrolledCourse key={course.id} id={course.course.id} name={course.course.name} thumbnail={course.course.thumbnail} />)}
           </div>
-          <div className='enrolled-courses-container'>
-            {enrolledCourses.map(course => <EnrolledCourse key={course.id} id={course.course.id} name={course.course.name} thumbnail={course.course.thumbnail} />)}</div>
+        </div>
+        :
+        <div style={{'textAlign' : 'left', 'width' : '100%', 'marginBottom' : '1rem'}}>
+          <h2>You Are Not Enrolled In Any Course Yet!</h2>
         </div>
         }
 
+        <div className='homepage-enrolled-courses-label'>
+          <h2>Latest Courses</h2>
+        </div>
         {newCourses.length > 0 && <div className='homepage-enrolled-courses-container'>
-          <div className='homepage-enrolled-courses-label'>
-            <h2>Latest Courses</h2>
-          </div>
-          <div className='enrolled-courses-container'>
+          <div className='homepage-enrolled-courses'>
             {newCourses.map(course => <EnrolledCourse key={course.id} id={course.id} name={course.name} thumbnail={course.thumbnail} />)}</div>
         </div>
         }

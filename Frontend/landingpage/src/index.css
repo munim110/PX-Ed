@@ -1664,6 +1664,16 @@ Course Area
 
 .homepage-enrolled-courses-container {
   display: flex;
+  /* justify-content: center; */
+  width: 100%;
+  padding-left: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  flex-direction: row;
+}
+
+.profile-enrolled-courses-container {
+  display: flex;
   flex-direction: column;
   justify-content: center;
   width: 100%;
@@ -1680,6 +1690,12 @@ Course Area
 .enrolled-courses-container {
   display: flex;
   flex-direction: column;
+  gap: 1rem;
+}
+
+.homepage-enrolled-courses {
+  display: flex;
+  flex-direction: row;
   gap: 1rem;
 }
 
@@ -1913,15 +1929,15 @@ Course Area
   text-align: center;
 }
 
-.correct-text{
+.correct-text {
   color: rgb(16, 180, 101);
 }
 
-.wrong-text{
+.wrong-text {
   color: rgb(206, 39, 39);
 }
 
-.profile-course-container{
+.profile-course-container {
   display: flex;
   flex-direction: row;
   align-content: center;
@@ -1931,12 +1947,12 @@ Course Area
   align-items: center;
 }
 
-.profile-course-view{
+.profile-course-view {
   display: grid;
   grid-template-columns: 30% 70%;
 }
 
-.profile-course-marks-container{
+.profile-course-marks-container {
   display: flex;
   flex-direction: column;
   align-content: center;
@@ -1945,4 +1961,22 @@ Course Area
   margin-top: 1rem;
   align-items: center;
   text-align: center;
+}
+
+.grade-component{
+  display: grid;
+  grid-template-rows: 50% 50%;
+}
+
+.attempt-component{
+  display: grid;
+  grid-template-columns: 90% 10%;
+}
+
+.grade-complete{
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  width: 100%;
 }

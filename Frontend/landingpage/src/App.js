@@ -34,6 +34,9 @@ import AllExamsToAddQuestion from './pages/Courses/AllExamsToAddQuestion'
 import AddQuestionToExam from './pages/Courses/AddQuestionToExam'
 import TakeExam from './pages/Courses/EnrolledExam'
 import ExamResultPage from './pages/Courses/ExamResult'
+import AllChaptersToGradeExam from './pages/Courses/AllChaptersToGrade'
+import AllExamAttempts from './pages/Courses/GradeExam'
+import CheckExam from './pages/Courses/CheckExamInstructor'
 
 // Blogs
 import SingleBlog from './pages/Blogs/SingleBlogPage'
@@ -105,6 +108,9 @@ function App() {
         <Route path='/allexamstoaddquestion/:courseID' element={<AllExamsToAddQuestion />} />
         <Route path='/takeexam/:ExamID' element={<TakeExam />} />
         <Route path='/examresult/:ExamResultID' element={<ExamResultPage />} />
+        <Route path='/allchaptersgradeexam/:courseID' element={<AllChaptersToGradeExam />} />
+        <Route path='/allexamattempts/:ExamID' element={<AllExamAttempts />} />
+        <Route path='/checkexam/:ExamAttemptID' element={<CheckExam />} />
 
         // Error
         <Route path="*" element={<Error />} />

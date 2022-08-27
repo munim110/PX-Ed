@@ -352,7 +352,7 @@ const Profile = () => {
                         </div>
                     </div>
 
-                    {enrolledCourses.length > 0 ? <div className='homepage-enrolled-courses-container'>
+                    {enrolledCourses.length > 0 ? <div className='profile-enrolled-courses-container'>
                         <div className='enrolled-courses-container'>
                             {enrolledCourses.map(course => {
                                 return (

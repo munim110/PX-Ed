@@ -34,7 +34,6 @@ const Navbar = () => {
           <li className="nav-item">
             <Link to="/blogs" className="nav-link" onClick={resetSearchTerm}>Blogs</Link>
           </li>
-          {authenticated && (<li className="nav-item"><Link to="/analysis" className="nav-link">Analysis</Link></li>)}
           {authenticated && (<li className="nav-item"><Link to="/profile" className="nav-link">Profile</Link></li>)}
         </ul>
       </nav>

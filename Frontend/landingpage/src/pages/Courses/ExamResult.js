@@ -13,7 +13,7 @@ const ExamResultPage = () => {
 
     //State
     const [loading, setLoading] = React.useState(true);
-    const [obtainedMarks, setObtainedMarks] = React.useState(0);
+    const [obtainedMarks, setObtainedMarks] = React.useState(-1);
     const [examID, setExamID] = React.useState(0);
     const [totalMarks, setTotalMarks] = React.useState(0);
     const [courseName, setCourseName] = React.useState('');
@@ -65,7 +65,7 @@ const ExamResultPage = () => {
     }, [ExamResultID]);
 
     useEffect(() => {
-        if (obtainedMarks !== 0) {
+        if (obtainedMarks !== -1) {
             setLoading(true);
             //Load Exam
             const fetchData = async () => {
@@ -139,6 +139,9 @@ const ExamResultPage = () => {
                 else if (MCQAnsArray[index] === 'd') {
                     userAnswer = question.option_d;
                 }
+                else{
+                    userAnswer = "nothing";
+                }
 
                 if (question.answer === MCQAnsArray[index]) {
                     setCorrectMCQQuestions(OldCorrectMCQs => [...OldCorrectMCQs, question]);
@@ -169,6 +172,9 @@ const ExamResultPage = () => {
                 }
                 else if (TrueFalseAnsArray[index] === 'false') {
                     userAnswer = "false";
+                }
+                else{
+                    userAnswer = "nothing";
                 }
 
                 if (question.answer.toString() === TrueFalseAnsArray[index]) {

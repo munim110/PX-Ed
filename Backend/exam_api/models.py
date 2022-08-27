@@ -54,8 +54,6 @@ class Exam(models.Model):
             marks += question.marks
         for question in self.shortquestions.all():
             marks += question.marks
-        for question in self.uploadquestions.all():
-            marks += question.marks
         self.total_marks = marks
         self.save()
     
@@ -66,8 +64,6 @@ class Exam(models.Model):
         for question in self.truefalse.all():
             questions += 1
         for question in self.shortquestions.all():
-            questions += 1
-        for question in self.uploadquestions.all():
             questions += 1
         self.total_questions = questions
         self.save()
@@ -92,6 +88,7 @@ class ExamAttempt(models.Model):
     wrong_answers = models.IntegerField(default=0)
     wrong_truefalse = models.IntegerField(default=0)
     total_marks = models.IntegerField(default=0)
+    is_graded = models.BooleanField(default=False)
 
 
     def set_corrrect_answers(self):
@@ -134,6 +131,11 @@ class ExamAttempt(models.Model):
         self.set_correct_truefalse()
         self.set_wrong_answers()
         self.set_wrong_truefalse()
+        
+    def set_is_graded(self):
+        if self.exam.shortquestions.all.count == 0:
+            self.is_graded = True
+            self.save()
 
     
     
