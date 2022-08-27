@@ -54,8 +54,6 @@ class Exam(models.Model):
             marks += question.marks
         for question in self.shortquestions.all():
             marks += question.marks
-        for question in self.uploadquestions.all():
-            marks += question.marks
         self.total_marks = marks
         self.save()
     
@@ -66,8 +64,6 @@ class Exam(models.Model):
         for question in self.truefalse.all():
             questions += 1
         for question in self.shortquestions.all():
-            questions += 1
-        for question in self.uploadquestions.all():
             questions += 1
         self.total_questions = questions
         self.save()
