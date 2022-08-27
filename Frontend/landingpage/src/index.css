@@ -1843,7 +1843,7 @@ Course Area
   margin-left: 1rem;
 }
 
-.exam-submit-button-wrapper{
+.exam-submit-button-wrapper {
   display: flex;
   flex-direction: column;
   align-content: center;
@@ -1860,7 +1860,7 @@ Course Area
   height: 100%;
 }
 
-.exam-tf-wrapper{
+.exam-tf-wrapper {
   margin-top: 2rem;
 }
 
@@ -1873,7 +1873,7 @@ Course Area
   column-gap: 20px;
 }
 
-.exam-tf-answer-wrapper{
+.exam-tf-answer-wrapper {
   display: grid;
   grid-template-columns: 50% 50%;
   width: 100%;
@@ -1892,7 +1892,31 @@ Course Area
   gap: 10px;
 }
 
-.exam-mcq-answer label{
+.exam-mcq-answer label {
   font-size: 1.1rem;
   font-weight: 700;
+}
+
+.time-up-popup {
+  position: absolute;
+  background-color: papayawhip;
+  width: 40rem;
+  height: 40rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  text-align: center;
+}
+
+.correct-text{
+  color: rgb(16, 180, 101);
+}
+
+.wrong-text{
+  color: rgb(206, 39, 39);
 }

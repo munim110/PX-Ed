@@ -1,10 +1,15 @@
 import React, { useEffect, useRef } from 'react'
 import { useGlobalContext } from '../../context'
-import { useNavigate, useParams } from 'react-router-dom'
-import { getUserName } from '../../Utils'
+import { useNavigate, useParams, Link } from 'react-router-dom'
+import { getUserID, getUserName } from '../../Utils'
 import Loading from '../../components/Loading'
 
+import ReactModal from 'react-modal';
+
 const examURL = 'http://127.0.0.1:8000/api/exams/'
+const examAttemptURL = 'http://127.0.0.1:8000/api/add-exam-attempt/'
+const examAttempts = 'http://127.0.0.1:8000/api/exam-attempt/?search='
+const courseURL = 'http://127.0.0.1:8000/api/enrolledcourses/?search='
 
 const TakeExam = () => {
     const { ExamID } = useParams();
@@ -13,10 +18,13 @@ const TakeExam = () => {
     //State
     const [loading, setLoading] = React.useState(true);
     const [isEnrolled, setIsEnrolled] = React.useState(false);
+    const [alreadyAttempted, setAlreadyAttempted] = React.useState(false);
     const [dataLoaded, setDataLoaded] = React.useState(false);
     const [examName, setExamName] = React.useState('');
     const [courseName, setCourseName] = React.useState('');
+    const [courseID, setCourseID] = React.useState('');
     const [chapterName, setChapterName] = React.useState('');
+    const [examAttemtID, setExamAttemtID] = React.useState(-1);
 
     //Exam Questions
     const [MCQQuestions, setMCQQuestions] = React.useState([]);
@@ -30,6 +38,8 @@ const TakeExam = () => {
 
     //Timer
     const [time, setTime] = React.useState(-1);
+    const [showPopup, setShowPopup] = React.useState(false);
+    const [pageOpacity, setPageOpacity] = React.useState(1);
     const timerID = useRef(null);
 
     //Timer Clear
@@ -37,17 +47,19 @@ const TakeExam = () => {
         window.clearInterval(timerID.current);
     }
 
-    //Timer UseEffect
+    //Load Page
     useEffect(() => {
         setUseNavbar(true);
         setAuthenticated(localStorage.getItem('authenticated'));
         setSpecialUser(localStorage.getItem('specialUser') === 'true');
     }, []);
 
+    //Timer UseEffect
     useEffect(() => {
         if (time === 0) {
             console.log('time is up');
             clearTimer();
+            setShowPopup(true);
         }
         else {
             timerID.current = window.setInterval(() => {
@@ -77,6 +89,7 @@ const TakeExam = () => {
                 setExamName(data.exam_name);
                 setChapterName(data.exam_chapter.name);
                 setCourseName(data.exam_course.name);
+                setCourseID(data.exam_course.id);
 
                 //MCQ Questions
                 data.questions.map(question => {
@@ -105,7 +118,29 @@ const TakeExam = () => {
                 setLoading(false);
             }
         }
+
+        const checkAlreadyAttempted = async () => {
+            setLoading(true);
+            try {
+                const response = await fetch(`${examAttempts}${ExamID}`);
+                const data = await response.json();
+                console.log(data);
+                if (data.length > 0) {
+                    data.map(attempt => {
+                        if (attempt.user.id === getUserID()) {
+                            setAlreadyAttempted(true);
+                            setExamAttemtID(attempt.id);
+                        }
+                    })
+                }
+            } catch (err) {
+                console.log(err)
+            } finally {
+                setLoading(false);
+            }
+        }
         fetchExamData();
+        checkAlreadyAttempted();
     }, [ExamID]);
 
     useEffect(() => {
@@ -120,23 +155,134 @@ const TakeExam = () => {
         console.log(shortQuestions);
     }, [shortQuestions])
 
+    useEffect(() => {
+        setPageOpacity(0.5);
+    }, [showPopup]);
+
+    useEffect(() => {
+        console.log(isEnrolled);
+    }, [isEnrolled])
+
+    useEffect(() => {
+        const checkEnrolled = async () => {
+            setLoading(true);
+            try {
+                if (getUserID() !== '') {
+                    console.log(getUserID());
+                    const response = await fetch(`${courseURL}${getUserID()}`);
+                    const data = await response.json();
+                    console.log(data);
+                    if (data.length > 0) {
+                        data.map(course => {
+                            if (course.id === courseID) {
+                                setIsEnrolled(true);
+                            }
+                        })
+                    }
+                }
+            } catch (err) {
+                console.log(err)
+            } finally {
+                setLoading(false);
+            }
+        }
+        checkEnrolled();
+    }, [courseID]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         console.log(MCQAnswers);
         console.log(trueFalseAnswers);
         console.log(shortAnswers);
+
+        // Process MCQs
+        let MCQAnswerProcessed = '';
+        MCQAnswers.map(answer => {
+            //Blank Answer
+            if (answer === 'f') {
+                MCQAnswerProcessed += '-$';
+            }
+            //Answer
+            else {
+                MCQAnswerProcessed += answer + '$';
+            }
+        })
+
+        // Process True False
+        let TFAnswerProcessed = '';
+        trueFalseAnswers.map(answer => {
+            //Blank Answer
+            if (answer === 'none') {
+                TFAnswerProcessed += '-$';
+            }
+            //Answer
+            else {
+                TFAnswerProcessed += answer + '$';
+            }
+        })
+
+        // Process Short Questions
+        let SHAnswerProcessed = '';
+        shortAnswers.map(answer => {
+            //Blank Answer
+            if (answer === 'none') {
+                SHAnswerProcessed += '-$';
+            }
+            //Answer
+            else {
+                SHAnswerProcessed += answer + '$';
+            }
+        })
+
+        const data = { 'exam': ExamID, 'user': getUserID(), 'question_answers': MCQAnswerProcessed, 'truefalse_answers': TFAnswerProcessed, 'short_answers': SHAnswerProcessed };
+        console.log(data);
+        const response = await fetch(examAttemptURL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(res => res.json()).catch(err => console.log(err));
+        console.log(response);
+        setExamAttemtID(response.id);
     }
+
+    // Navigation
+    let navigate = useNavigate();
+    useEffect(() => {
+        if (examAttemtID !== -1) {
+            navigate('/examresult/' + examAttemtID);
+        }
+    }, [examAttemtID]);
 
     //Render
     if (loading) {
         return <Loading />
     }
 
-    return (
-        <div className='exam-page-wrapper'>
+    if (isEnrolled === false) {
+        return (
+            <section className="error-page section">
 
-            <div></div>
+                <div className="error-container">
+
+                    <h1>You Are Not Enrolled To The Course Yet!</h1>
+                    <Link to="/home" className='btn btn-primary'>
+                        Return Home
+                    </Link>
+
+                </div>
+
+            </section>
+        )
+    }
+
+    return (
+        <div className='exam-page-wrapper' style={{ 'opacity': { pageOpacity } }}>
+
+            <div>
+            </div>
 
             <div>
                 <div className='exam-info-wrapper'>
@@ -146,7 +292,7 @@ const TakeExam = () => {
                     <h2>Time: {time}</h2>
                 </div>
 
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} id="ExamForm">
                     <div className='exam-section-wrapper'>
                         {MCQQuestions.length > 0 ?
                             <>
@@ -154,7 +300,7 @@ const TakeExam = () => {
                                 {MCQQuestions.map((question, index) => {
                                     return (
                                         <div key={index} className='exam-mcq-wrapper'>
-                                            <h3>{index + 1}.{question.question}</h3>
+                                            <h3>{index + 1}.{question.question} (Mark: {question.marks})</h3>
                                             <div className='exam-mcq-answer-wrapper'>
                                                 <div className='exam-mcq-answer'>
                                                     <input type='radio' name={question.question} id={question.option_a + question.id} value='a' onChange={
@@ -227,7 +373,7 @@ const TakeExam = () => {
                                 {trueFalseQuestions.map((question, index) => {
                                     return (
                                         <div key={index} className='exam-tf-wrapper'>
-                                            <h3>{index + 1}.{question.question}</h3>
+                                            <h3>{index + 1}.{question.question} (Mark: {question.marks})</h3>
                                             <div className='exam-tf-answer-wrapper'>
                                                 <div className='exam-mcq-answer'>
                                                     <input type='radio' name={question.question} id={question.id + 'true'} value='true' onChange={
@@ -272,7 +418,7 @@ const TakeExam = () => {
                                 {shortQuestions.map((question, index) => {
                                     return (
                                         <div className='blog-input-wrapper' key={index}>
-                                            <h3>{index + 1}.{question.question}</h3>
+                                            <h3>{index + 1}.{question.question} (Mark: {question.marks})</h3>
                                             <input type='text' className='update-profile-form-field' name={question.question} id={question.id} onChange={
                                                 (e) => {
                                                     const newShortAnswers = shortAnswers.map((answer, i) => {
@@ -293,6 +439,18 @@ const TakeExam = () => {
                     <div className='exam-submit-button-wrapper'>
                         <button className='enroll-button' type="submit" style={{ 'width': '20%' }}>Submit</button>
                     </div>
+
+                    <ReactModal
+                        isOpen={showPopup}
+                        contentLabel="Time's Up"
+                        className="time-up-popup"
+                        shouldCloseOnOverlayClick={false}
+                        shouldCloseOnEsc={false}
+                        preventScroll={true}
+                    >
+                        <h1>Time Is Up!</h1>
+                        <button className='enroll-button' type="submit" style={{ 'width': '20%' }} form="ExamForm">Submit</button>
+                    </ReactModal>
 
                 </form>
             </div>

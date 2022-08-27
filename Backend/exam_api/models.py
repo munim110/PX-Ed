@@ -107,7 +107,7 @@ class ExamAttempt(models.Model):
         all_answers = self.truefalse_answers.split('$')
         n = self.exam.truefalse.all().count()
         for i in range(n):
-            if all_answers[i] == str(self.exam.truefalse.all()[i].answer):
+            if all_answers[i] == str(self.exam.truefalse.all()[i].answer).lower():
                 self.correct_truefalse += 1
                 self.total_marks += self.exam.truefalse.all()[i].marks
         self.save()
@@ -124,7 +124,7 @@ class ExamAttempt(models.Model):
         all_answers = self.truefalse_answers.split('$')
         n = self.exam.truefalse.all().count()
         for i in range(n):
-            if all_answers[i] != str(self.exam.truefalse.all()[i].answer):
+            if all_answers[i] != str(self.exam.truefalse.all()[i].answer).lower():
                 self.wrong_truefalse += 1
         self.save()
 

@@ -106,7 +106,7 @@ class ExamAttemptSerializer(serializers.ModelSerializer):
             time = datetime.datetime.now(),
             question_answers = self.context['request'].data['question_answers'],
             truefalse_answers = self.context['request'].data['truefalse_answers'],
-            shortquestion_answers = self.context['request'].data['shortquestion_answers'],
+            short_answers = self.context['request'].data['short_answers'],
         )
         examattempt.set_all()
         examattempt.save()
