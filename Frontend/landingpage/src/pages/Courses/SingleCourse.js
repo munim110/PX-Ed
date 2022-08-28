@@ -74,7 +74,7 @@ const SingleCourse = () => {
     useEffect(() => {
         setUseNavbar(true);
         setAuthenticated(localStorage.getItem('authenticated'));
-        setSpecialUser(localStorage.getItem('specialUser')==='true');
+        setSpecialUser(localStorage.getItem('specialUser') === 'true');
     }, []);
 
     useEffect(() => {
@@ -163,13 +163,15 @@ const SingleCourse = () => {
                 }
 
                 // Enrollment data
-                if (enrolledData.length > 0) {
-                    console.log(enrolledData);
-                    enrolledData.map(e => {
-                        if (parseInt(e.course.id) == parseInt(id)) {
-                            setEnrolled(true);
-                        }
-                    })
+                if (getUserID() > 0) {
+                    if (enrolledData.length > 0) {
+                        console.log(enrolledData);
+                        enrolledData.map(e => {
+                            if (parseInt(e.course.id) == parseInt(id)) {
+                                setEnrolled(true);
+                            }
+                        })
+                    }
                 }
 
                 if (JSON.parse(localStorage.getItem('user'))) {
@@ -188,11 +190,11 @@ const SingleCourse = () => {
     }, [id]);
 
     useEffect(() => {
-        if(reviewSuccess){
+        if (reviewSuccess) {
             window.location.reload();
             setReviewSuccess(false);
         }
-    } , [reviewSuccess]);
+    }, [reviewSuccess]);
 
     // Functions
     const checkNumber = (number) => {
