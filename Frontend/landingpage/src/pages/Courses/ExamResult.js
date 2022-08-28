@@ -22,14 +22,17 @@ const ExamResultPage = () => {
     const [courseID, setCourseID] = React.useState(0);
     const [dataLoaded, setDataLoaded] = React.useState(false);
     const [verified, setVerified] = React.useState(false);
+    const [isGraded, setIsGraded] = React.useState(false);
 
     //Questions
     const [MCQQuestions, setMCQQuestions] = React.useState([]);
     const [trueFalseQuestions, setTrueFalseQuestions] = React.useState([]);
+    const [shortAnswerQuestions, setShortAnswerQuestions] = React.useState([]);
 
     //Answers
     const [MCQAnswers, setMCQAnswers] = React.useState('');
     const [TrueFalseAnswers, setTrueFalseAnswers] = React.useState('');
+    const [ShortAnswerAnswers, setShortAnswerAnswers] = React.useState('');
 
     //Check Answers
     const [correctMCQQuestions, setCorrectMCQQuestions] = React.useState([]);
@@ -40,6 +43,7 @@ const ExamResultPage = () => {
     const [wrongTrueFalseQuestions, setWrongTrueFalseQuestions] = React.useState([]);
     const [wrongMCQAnswers, setWrongMCQAnswers] = React.useState([]);
     const [wrongTrueFalseAnswers, setWrongTrueFalseAnswers] = React.useState([]);
+    const [shortAnsweArray, setShortAnsweArray] = React.useState([]);
 
     //Load Page
     useEffect(() => {
@@ -57,7 +61,9 @@ const ExamResultPage = () => {
             console.log(body);
             setMCQAnswers(body.question_answers);
             setTrueFalseAnswers(body.truefalse_answers);
+            setShortAnswerAnswers(body.short_answers);
             setObtainedMarks(body.total_marks);
+            setIsGraded(body.is_graded);
             setExamID(body.exam.id);
         }
         fetchData();
@@ -81,14 +87,17 @@ const ExamResultPage = () => {
 
                 //Set MCQ Questions
                 body.questions.map(question => {
-                    console.log(question);
                     setMCQQuestions(OldMCQs => [...OldMCQs, question]);
                 })
 
                 //Set TrueFalse Questions
                 body.truefalse.map(question => {
-                    console.log(question);
                     setTrueFalseQuestions(OldTrueFalses => [...OldTrueFalses, question]);
+                })
+
+                //Set ShortAnswer Questions
+                body.shortquestions.map(question => {
+                    setShortAnswerQuestions(OldShortAnswers => [...OldShortAnswers, question]);
                 })
 
                 setLoading(false);
@@ -105,9 +114,7 @@ const ExamResultPage = () => {
             //Split Answers
             const MCQAnsArray = MCQAnswers.split('$').filter(x => x);
             const TrueFalseAnsArray = TrueFalseAnswers.split('$').filter(x => x);
-
-            console.log(MCQAnsArray);
-            console.log(TrueFalseAnsArray);
+            const ShortAnswerAnsArray = ShortAnswerAnswers.split('$').filter(x => x);
 
             //Check MCQ Answers
             MCQQuestions.map((question, index) => {
@@ -139,7 +146,7 @@ const ExamResultPage = () => {
                 else if (MCQAnsArray[index] === 'd') {
                     userAnswer = question.option_d;
                 }
-                else{
+                else {
                     userAnswer = "nothing";
                 }
 
@@ -173,7 +180,7 @@ const ExamResultPage = () => {
                 else if (TrueFalseAnsArray[index] === 'false') {
                     userAnswer = "false";
                 }
-                else{
+                else {
                     userAnswer = "nothing";
                 }
 
@@ -187,6 +194,16 @@ const ExamResultPage = () => {
                     let response = "The statement is " + correctAnswer + " and you answered " + userAnswer;
                     setWrongTrueFalseAnswers(OldWrongTrueFalseAnswers => [...OldWrongTrueFalseAnswers, response]);
                 }
+            })
+
+            //Check ShortAnswer Answers
+            shortAnswerQuestions.map((question, index) => {
+                let userAnswer = ShortAnswerAnsArray[index];
+                if (userAnswer === "none") {
+                    userAnswer = "nothing";
+                }
+                userAnswer = "You answered " + userAnswer;
+                setShortAnsweArray(OldShortAnswers => [...OldShortAnswers, userAnswer]);
             })
 
             setLoading(false);
@@ -208,6 +225,8 @@ const ExamResultPage = () => {
             console.log(wrongTrueFalseQuestions);
             console.log(wrongTrueFalseAnswers);
 
+            console.log(shortAnsweArray);
+
             setLoading(false);
         }
     }, [verified]);
@@ -227,7 +246,7 @@ const ExamResultPage = () => {
                     <h2>Course: {courseName}</h2>
                     <h2>Chapter: {chapterName}</h2>
                     <h2>Exam: {examName}</h2>
-                    <h2>Marks: {obtainedMarks} / {totalMarks}</h2>
+                    {isGraded === true? <h2>Total Marks: {obtainedMarks} / {totalMarks}</h2> : <h2>Auto Marks: {obtainedMarks} / {totalMarks}</h2>}
                 </div>
 
                 <div className='exam-section-wrapper'>
@@ -277,6 +296,21 @@ const ExamResultPage = () => {
                             })}
                         </> : null
                     }
+                </div>
+
+                <div className='exam-section-wrapper'>
+                    {shortAnswerQuestions.length > 0 ? 
+                        <>
+                            <h2>Short Questions</h2>
+                            {shortAnswerQuestions.map((question, index) => {
+                                return (
+                                    <div key={question.question}>
+                                        <h3>{question.question} (Mark: {question.marks})</h3>
+                                        <h3>{shortAnsweArray[index]}</h3>
+                                    </div>
+                                )
+                            })}
+                        </> : null}
                 </div>
 
                 <div className='exam-submit-button-wrapper'>
