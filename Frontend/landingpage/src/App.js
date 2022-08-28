@@ -37,6 +37,7 @@ import ExamResultPage from './pages/Courses/ExamResult'
 import AllChaptersToGradeExam from './pages/Courses/AllChaptersToGrade'
 import AllExamAttempts from './pages/Courses/GradeExam'
 import CheckExam from './pages/Courses/CheckExamInstructor'
+import EditGrade from './pages/Courses/EditGrade'
 
 // Blogs
 import SingleBlog from './pages/Blogs/SingleBlogPage'
@@ -111,6 +112,7 @@ function App() {
         <Route path='/allchaptersgradeexam/:courseID' element={<AllChaptersToGradeExam />} />
         <Route path='/allexamattempts/:ExamID' element={<AllExamAttempts />} />
         <Route path='/checkexam/:ExamAttemptID' element={<CheckExam />} />
+        <Route path='/editgrade/:ExamAttemptID' element={<EditGrade />} />
 
         // Error
         <Route path="*" element={<Error />} />

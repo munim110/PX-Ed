@@ -133,7 +133,7 @@ class ExamAttempt(models.Model):
         self.set_wrong_truefalse()
         
     def set_is_graded(self):
-        if self.exam.shortquestions.all.count == 0:
+        if self.exam.shortquestions.all.count() == 0:
             self.is_graded = True
             self.save()
 

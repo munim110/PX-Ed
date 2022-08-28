@@ -8,7 +8,7 @@ import Loading from '../../components/Loading'
 const examAttemptURL = 'http://127.0.0.1:8000/api/exam-attempt/'
 const examURL = 'http://127.0.0.1:8000/api/exams/'
 
-const CheckExam = () => {
+const EditGrade = () => {
     const { ExamAttemptID } = useParams();
     const { setUseNavbar, setAuthenticated, setSpecialUser } = useGlobalContext();
 
@@ -35,6 +35,10 @@ const CheckExam = () => {
     const [MCQAnswers, setMCQAnswers] = React.useState('');
     const [TrueFalseAnswers, setTrueFalseAnswers] = React.useState('');
     const [ShortAnswers, setShortAnswers] = React.useState('');
+
+    //Current Marks
+    const [currentMCQMarks, setCurrentMCQMarks] = React.useState(0);
+    const [currentTrueFalseMarks, setCurrentTrueFalseMarks] = React.useState(0);
 
     //Check Answers
     const [correctMCQQuestions, setCorrectMCQQuestions] = React.useState([]);
@@ -163,6 +167,8 @@ const CheckExam = () => {
                     setCorrectMCQQuestions(OldCorrectMCQs => [...OldCorrectMCQs, question]);
                     let response = "The answer " + correctAnswer + " is correct";
                     setCorrectMCQAnswers(OldCorrectMCQAnswers => [...OldCorrectMCQAnswers, response]);
+                    let mcqMark = question.marks;
+                    setCurrentMCQMarks(OldMCQMarks => OldMCQMarks + mcqMark);
                 }
                 else {
                     setWrongMCQQuestions(OldWrongMCQs => [...OldWrongMCQs, question]);
@@ -197,6 +203,8 @@ const CheckExam = () => {
                     setCorrectTrueFalseQuestions(OldCorrectTrueFalses => [...OldCorrectTrueFalses, question]);
                     let response = "The statement is " + correctAnswer;
                     setCorrectTrueFalseAnswers(OldCorrectTrueFalseAnswers => [...OldCorrectTrueFalseAnswers, response]);
+                    let trueFalseMark = question.marks;
+                    setCurrentTrueFalseMarks(OldTrueFalseMarks => OldTrueFalseMarks + trueFalseMark);
                 }
                 else {
                     setWrongTrueFalseQuestions(OldWrongTrueFalses => [...OldWrongTrueFalses, question]);
@@ -245,7 +253,7 @@ const CheckExam = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         setLoading(true);
-        let overallMarks = obtainedMarks;
+        let overallMarks = currentMCQMarks + currentTrueFalseMarks;
 
         shortAnswerGrade.map(grade => {
             overallMarks += grade;
@@ -263,226 +271,87 @@ const CheckExam = () => {
         console.log(response);
         setIsGraded(true);
         setLoading(false);
+        setSuccess(true);
     }
 
     const navigate = useNavigate();
     const goBack = () => {
-        navigate('/allexamattempts/' + examID);
+        navigate('/checkexam/' + ExamAttemptID);
     }
 
-    const editGrade = () => {
-        console.log(ExamAttemptID);
-        navigate('/editgrade/' + ExamAttemptID);
-    }
+    useEffect(() => {
+        if(success)
+        {
+            navigate(`/checkexam/${ExamAttemptID}`);
+        }
+    } , [success]);
 
     if (loading) {
         return <Loading />
     }
 
-    if (!isGraded) {
-        return (
-            <div className='exam-page-wrapper'>
+    return (
+        <div className='exam-page-wrapper'>
 
-                <div></div>
+            <div></div>
 
-                <div>
+            <div>
 
-                    <div className='exam-info-wrapper'>
-                        <h2>Course: {courseName}</h2>
-                        <h2>Chapter: {chapterName}</h2>
-                        <h2>Exam: {examName}</h2>
-                        <h2>Auto Marks: {obtainedMarks} / {totalMarks}</h2>
-                    </div>
-
-                    <div className='exam-section-wrapper'>
-                        {MCQQuestions.length > 0 ?
-                            <>
-                                <h2>MCQ Questions</h2>
-                                {wrongMCQQuestions.map((question, index) => {
-                                    return (
-                                        <div key={question.question} className='wrong-text'>
-                                            <h3>{question.question} (Mark: {question.marks})</h3>
-                                            <h3>{wrongMCQAnswers[index]}</h3>
-                                        </div>
-                                    )
-                                })}
-                                {correctMCQQuestions.map((question, index) => {
-                                    return (
-                                        <div key={question.question} className='correct-text'>
-                                            <h3>{question.question} (Mark: {question.marks})</h3>
-                                            <h3>{correctMCQAnswers[index]}</h3>
-                                        </div>
-                                    )
-                                })}
-                            </> : null
-                        }
-                    </div>
-
-                    <div className='exam-section-wrapper'>
-                        {trueFalseQuestions.length > 0 ?
-                            <>
-                                <h2>TrueFalse Questions</h2>
-                                {wrongTrueFalseQuestions.map((question, index) => {
-                                    return (
-                                        <div key={question.question} className='wrong-text'>
-                                            <h3>{question.question} (Mark: {question.marks})</h3>
-                                            <h3>{wrongTrueFalseAnswers[index]}</h3>
-                                        </div>
-                                    )
-                                })}
-
-                                {correctTrueFalseQuestions.map((question, index) => {
-                                    return (
-                                        <div key={question.question} className='correct-text'>
-                                            <h3>{question.question} (Mark: {question.marks})</h3>
-                                            <h3>{correctTrueFalseAnswers[index]}</h3>
-                                        </div>
-                                    )
-                                })}
-                            </> : null
-                        }
-                    </div>
-
-                    <form onSubmit={handleSubmit}>
-                        <div className='exam-section-wrapper'>
-                            {shortQuestions.length > 0 ?
-                                <>
-                                    <h2>Short Questions</h2>
-                                    {shortQuestions.map((question, index) => {
-
-                                        return (
-                                            <div key={question.id}>
-                                                <h3>{question.question} (Mark: {question.marks})</h3>
-                                                <h3>{shortAnsweArray[index]}</h3>
-                                                <h4>Grade The Answer Below</h4>
-                                                <input type='number' min={0} max={question.marks} className='update-profile-form-field' name={question.question} id={question.id} onChange={
-                                                    (event) => {
-                                                        const number = parseInt(event.target.value);
-                                                        console.log(number);
-                                                        const newGrades = shortAnswerGrade.map((grade, i) => {
-                                                            if (i === index) {
-                                                                return number;
-                                                            }
-                                                            else {
-                                                                return grade;
-                                                            }
-                                                        })
-                                                        setShortAnswerGrade(newGrades);
-                                                    }
-                                                } />
-                                            </div>
-                                        )
-
-                                    })}
-                                </> : null
-                            }
-                        </div>
-
-                        <div className='exam-submit-button-wrapper'>
-                            <button className='enroll-button' type="submit" style={{ 'width': '20%' }}>Submit Grade</button>
-                        </div>
-                    </form>
-
+                <div className='exam-info-wrapper'>
+                    <h2>Course: {courseName}</h2>
+                    <h2>Chapter: {chapterName}</h2>
+                    <h2>Exam: {examName}</h2>
+                    <h2>Current Marks: {obtainedMarks} / {totalMarks}</h2>
                 </div>
 
-                <div></div>
-
-            </div>
-        )
-    }
-
-    else {
-        return (
-            <div className='exam-page-wrapper'>
-
-                <div></div>
-
-                <div>
-
-                    <div className='exam-info-wrapper'>
-                        <h2>Course: {courseName}</h2>
-                        <h2>Chapter: {chapterName}</h2>
-                        <h2>Exam: {examName}</h2>
-                        <h2>Total Marks: {obtainedMarks} / {totalMarks}</h2>
-                    </div>
-
-                    <div className='exam-section-wrapper'>
-                        {MCQQuestions.length > 0 ?
-                            <>
-                                <h2>MCQ Questions</h2>
-                                {wrongMCQQuestions.map((question, index) => {
-                                    return (
-                                        <div key={question.question} className='wrong-text'>
-                                            <h3>{question.question} (Mark: {question.marks})</h3>
-                                            <h3>{wrongMCQAnswers[index]}</h3>
-                                        </div>
-                                    )
-                                })}
-                                {correctMCQQuestions.map((question, index) => {
-                                    return (
-                                        <div key={question.question} className='correct-text'>
-                                            <h3>{question.question} (Mark: {question.marks})</h3>
-                                            <h3>{correctMCQAnswers[index]}</h3>
-                                        </div>
-                                    )
-                                })}
-                            </> : null
-                        }
-                    </div>
-
-                    <div className='exam-section-wrapper'>
-                        {trueFalseQuestions.length > 0 ?
-                            <>
-                                <h2>TrueFalse Questions</h2>
-                                {wrongTrueFalseQuestions.map((question, index) => {
-                                    return (
-                                        <div key={question.question} className='wrong-text'>
-                                            <h3>{question.question} (Mark: {question.marks})</h3>
-                                            <h3>{wrongTrueFalseAnswers[index]}</h3>
-                                        </div>
-                                    )
-                                })}
-
-                                {correctTrueFalseQuestions.map((question, index) => {
-                                    return (
-                                        <div key={question.question} className='correct-text'>
-                                            <h3>{question.question} (Mark: {question.marks})</h3>
-                                            <h3>{correctTrueFalseAnswers[index]}</h3>
-                                        </div>
-                                    )
-                                })}
-                            </> : null
-                        }
-                    </div>
-
+                <form onSubmit={handleSubmit}>
                     <div className='exam-section-wrapper'>
                         {shortQuestions.length > 0 ?
                             <>
                                 <h2>Short Questions</h2>
                                 {shortQuestions.map((question, index) => {
+
                                     return (
                                         <div key={question.id}>
                                             <h3>{question.question} (Mark: {question.marks})</h3>
                                             <h3>{shortAnsweArray[index]}</h3>
+                                            <h4>Grade The Answer Below</h4>
+                                            <input type='number' min={0} max={question.marks} className='update-profile-form-field' name={question.question} id={question.id} onChange={
+                                                (event) => {
+                                                    const number = parseInt(event.target.value);
+                                                    console.log(number);
+                                                    const newGrades = shortAnswerGrade.map((grade, i) => {
+                                                        if (i === index) {
+                                                            return number;
+                                                        }
+                                                        else {
+                                                            return grade;
+                                                        }
+                                                    })
+                                                    setShortAnswerGrade(newGrades);
+                                                }
+                                            } />
                                         </div>
                                     )
+
                                 })}
                             </> : null
                         }
                     </div>
 
                     <div className='exam-submit-button-wrapper'>
-                        <button className='enroll-button' style={{ 'width': '20%' }} onClick={goBack}>Back To Exams</button>
-                        <button className='enroll-button' style={{ 'width': '20%' }} onClick={editGrade}>Edit Grade</button>
+                        <button className='enroll-button' type="submit" style={{ 'width': '20%' }}>Update Grade</button>
                     </div>
+                </form>
 
-                </div>
-
-                <div></div>
+                <button className='enroll-button' type="submit" style={{ 'width': '20%' }} onClick={goBack}>Go Back</button>
 
             </div>
-        )
-    }
+
+            <div></div>
+
+        </div>
+    )
 }
 
-export default CheckExam;
+export default EditGrade;
