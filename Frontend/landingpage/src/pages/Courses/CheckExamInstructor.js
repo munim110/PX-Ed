@@ -262,6 +262,7 @@ const CheckExam = () => {
         ).then(res => res.json()).catch(err => console.log(err));
         console.log(response);
         setIsGraded(true);
+        setObtainedMarks(overallMarks);
         setLoading(false);
     }
 
